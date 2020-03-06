@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ScrollView
+            android:id="@+id/trailRecycler"
+            android:layout_above="@+id/saveData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dimen_5dp">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:layout_margin="@dimen/dimen_5dp"
+                    android:text="Pesticide Residues"
+                    android:textAllCaps="true"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/dimen_18dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/alachlor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Alachlor"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/atrazine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Atrazine"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/aldrin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Aldrin/Dieldrin"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/alpha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Alpha HCH"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/beta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Beta HCH"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/butachlor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Butachlor"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chlorpyriphos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Chlorpyriphos"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/delta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Delta HCH"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dichlor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="@string/dichlor"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/endosulfan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Endosulfan (alpha, beta and sulphate)"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ethion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Ethion"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/gamma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Gamma - HCH (Lindane)"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/isoproturon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Isoproturon"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/malathion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Malathion"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/methyl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Methyl Parathion"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/monocrotophos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Monocrotophos"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phorate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Phorate"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                    android:layout_marginTop="@dimen/dimen_20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:layout_marginLeft="@dimen/dimen_5dp"
+                    android:layout_marginRight="@dimen/dimen_5dp"
+                    android:text="Trihalomethanes"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/dimen_18dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/bromoform"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Bromoform"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dibromochloromethane"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Dibromochloromethane"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/bromochloromethane"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Bromochloromethane"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chloroform"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Chloroform"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+            android:id="@+id/saveData"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/padding_10"
+            android:background="@drawable/button_background_green"
+            android:fontFamily="@font/proxima_nova_light"
+            android:gravity="center"
+            android:padding="@dimen/padding_10"
+            android:text="SAVE"
+            android:textColor="@color/White"
+            android:textSize="@dimen/dimen_20dp"
+            android:textStyle="bold"/>
+
+</RelativeLayout>

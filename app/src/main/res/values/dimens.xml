@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="img_width_height">120dp</dimen>
+    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_desc">16dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
+
+    <dimen name="activity_padding">16dp</dimen>
+    <dimen name="placeholder_image">50dp</dimen>
+    <dimen name="placeholder_text_height">8dp</dimen>
+    <dimen name="activity_padding_horizontal">16dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+
+    <dimen name="padding_list_row">16dp</dimen>
+    <dimen name="messages_padding_left">72dp</dimen>
+    <dimen name="icon_width_height">40dp</dimen>
+    <dimen name="msg_text_primary">16sp</dimen>
+    <dimen name="msg_text_secondary">14sp</dimen>
+    <dimen name="icon_star">25dp</dimen>
+    <dimen name="icon_text">22dp</dimen>
+    <dimen name="timestamp">12dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="margin_separatorText">5dp</dimen>
+
+    <dimen name="marginTop_et">2dp</dimen>
+    <dimen name="marginTop_btn">10dp</dimen>
+    <dimen name="marginTop_title">20dp</dimen>
+
+    <!-- MarginBottom -->
+    <dimen name="marginBottom_et">2dp</dimen>
+    <dimen name="marginBottom_btn">5dp</dimen>
+    <dimen name="marginBottom_drawableLeft">10dp</dimen>
+    <dimen name="marginBottom_scrollView">5dp</dimen>
+
+    <!-- Padding  -->
+    <dimen name="padding_layout">20dp</dimen>
+    <dimen name="padding_tv_title">10dp</dimen>
+    <dimen name="padding_drawableLeft">5dp</dimen>
+    <dimen name="padding_radiobtn">10dp</dimen>
+    <dimen name="padding_radiogroup">5dp</dimen>
+
+    <!-- PaddingLeft -->
+    <dimen name="paddingLeft_itemsummary_content">10dp</dimen>
+
+    <!-- PaddingRight -->
+    <dimen name="paddingRight_itemsummary_content">10dp</dimen>
+
+    <!-- PaddingTop   -->
+    <dimen name="paddingTop_et">4dp</dimen>
+    <dimen name="paddingTop_tv">5dp</dimen>
+    <dimen name="paddingTop_tv_address">5dp</dimen>
+    <dimen name="paddingTop_itemsummary_content">5dp</dimen>
+
+    <!-- PaddingBottom -->
+    <dimen name="paddingBottom_et">4dp</dimen>
+    <dimen name="paddingBottom_tv">5dp</dimen>
+    <dimen name="paddingBottom_tv_address">5dp</dimen>
+    <dimen name="paddingBottom_itemsummary_content">5dp</dimen>
+
+    <!-- TextSize  -->
+    <dimen name="ts_title">20sp</dimen>
+    <dimen name="ts_radiobtn">16sp</dimen>
+    <dimen name="ts_textView">14sp</dimen>
+    <dimen name="ts_textView_menuItem_details">16sp</dimen>
+    <dimen name="ts_textView_menuItem_price">20sp</dimen>
+    <dimen name="ts_badge">14sp</dimen>
+    <dimen name="ts_tv_delivery_address">14sp</dimen>
+    <dimen name="ts_textBtn">18sp</dimen>
+    <dimen name="ts_radiobtn_paymentoption">20sp</dimen>
+
+    <!-- Width -->
+    <dimen name="width_iv_drawableLeft">20dp</dimen>
+    <dimen name="width_iv_splashscreen_logo">150dp</dimen>
+
+    <!-- Height -->
+    <dimen name="height_iv_drawableLeft">20dp</dimen>
+    <dimen name="height_iv_splashscreen_logo">150dp</dimen>
+    <dimen name="height_iv_menuItem_category">180dp</dimen>
+    <dimen name="height_iv_menuItem_cardItem">250dp</dimen>
+
+    <!-- minHeight -->
+    <dimen name="minheight_btn">30dp</dimen>
+
+    <dimen name="tab_max_width">264dp</dimen>
+    <dimen name="tab_padding_bottom">16dp</dimen>
+    <dimen name="tab_label">14sp</dimen>
+    <dimen name="custom_tab_layout_height">72dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">10dp</dimen>
+    <dimen name="nav_header_height">150dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="dialog_top_radius">21dp</dimen>
+    <dimen name="item_offset">10dp</dimen>
+    <dimen name="dimen_10dp">10dp</dimen>
+    <dimen name="dimen_5dp">5dp</dimen>
+    <dimen name="detail_backdrop_height">190dp</dimen>
+
+    <dimen name="row_padding_vertical">10dp</dimen>
+    <dimen name="dimen_15dp">15sp</dimen>
+    <dimen name="image_dim">100dp</dimen>
+    <dimen name="dimen_40dp">40sp</dimen>
+    <dimen name="dimen_15sp">15sp</dimen>
+    <dimen name="dimen_20dp">20sp</dimen>
+    <dimen name="dimen_30dp">30sp</dimen>
+    <dimen name="dimen_18dp">18sp</dimen>
+    <dimen name="service_dim">120dp</dimen>
+    <dimen name="service_back">120dp</dimen>
+    <dimen name="service_card_radius">60dp</dimen>
+    <dimen name="service_img">60dp</dimen>
+
+    <dimen name="margin_5dp">5sp</dimen>
+    <dimen name="margin_2dp">2sp</dimen>
+    <dimen name="margin__15dp">-15dp</dimen>
+    <dimen name="margin_10dp">10sp</dimen>
+    <dimen name="margin_15dp">15sp</dimen>
+    <dimen name="margin_20dp">20sp</dimen>
+    <dimen name="margin_30dp">30sp</dimen>
+    <dimen name="margin_40dp">40sp</dimen>
+
+    <dimen name="font_8sp">8sp</dimen>
+    <dimen name="font_9sp">9sp</dimen>
+    <dimen name="font_10sp">10sp</dimen>
+    <dimen name="font_12sp">12sp</dimen>
+    <dimen name="font_14sp">14sp</dimen>
+    <dimen name="font_16sp">16sp</dimen>
+    <dimen name="font_18sp">18sp</dimen>
+    <dimen name="font_20sp">20sp</dimen>
+    <dimen name="font_22sp">22sp</dimen>
+    <dimen name="font_24sp">24sp</dimen>
+</resources>
