@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.helper
 
 import android.content.Context
 import android.net.ConnectivityManager

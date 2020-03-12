@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.view
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -16,6 +16,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.sunanda.wtpharinghata.helper.DigitsInputFilter
+import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.database.DatabaseClient
+import com.sunanda.wtpharinghata.database.Task
 
 class TreatedWaterFragment : Fragment() {
 
@@ -276,8 +280,7 @@ class TreatedWaterFragment : Fragment() {
                 task.entrydate = myDate
 
                 //adding to database
-                DatabaseClient
-                    .getInstance(activity!!)
+                DatabaseClient.getInstance(activity!!)
                     .appDatabase
                     .taskDao()
                     .insert(task)
@@ -366,8 +369,7 @@ class TreatedWaterFragment : Fragment() {
                 task.entrydate = myDate
 
                 //adding to database
-                DatabaseClient
-                    .getInstance(activity!!)
+                DatabaseClient.getInstance(activity!!)
                     .appDatabase
                     .taskDao()
                     .update(task)

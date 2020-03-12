@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.helper
 
 import android.app.Dialog
 import android.content.Context
@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.Window
+import com.sunanda.wtpharinghata.R
 
 class LoadingDialog(internal var context: Context) {
 

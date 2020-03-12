@@ -1,16 +1,13 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.sunanda.wtp_app.util.SessionManager
+import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.helper.SessionManager
 
 class SplashActivity : AppCompatActivity() {
 
@@ -39,11 +36,17 @@ class SplashActivity : AppCompatActivity() {
 
         if (sessionManager.isLoggedIn) {
                     startActivity(Intent(this@SplashActivity, WelcomeActivity::class.java))
-                    overridePendingTransition(R.anim.left_in, R.anim.right_out)
+                    overridePendingTransition(
+                        R.anim.left_in,
+                        R.anim.right_out
+                    )
                     finish()
                 } else {
                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-                    overridePendingTransition(R.anim.left_in, R.anim.right_out)
+                    overridePendingTransition(
+                        R.anim.left_in,
+                        R.anim.right_out
+                    )
                     finish()
                 }
     }

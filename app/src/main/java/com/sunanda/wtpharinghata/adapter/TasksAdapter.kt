@@ -1,7 +1,6 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.adapter
 
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -13,9 +12,20 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.database.DatabaseClient
+import com.sunanda.wtpharinghata.database.Task
+import com.sunanda.wtpharinghata.helper.APIDataService
+import com.sunanda.wtpharinghata.helper.LoadingDialog
+import com.sunanda.wtpharinghata.helper.RetrofitInstance
+import com.sunanda.wtpharinghata.view.MainActivity
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Task>) :
@@ -110,7 +120,10 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
         val intent = Intent(mCtx, MainActivity::class.java)
         intent.putExtra("TASK", json)
         mCtx.startActivity(intent)
-        activity.overridePendingTransition(R.anim.left_enter, R.anim.right_out)
+        activity.overridePendingTransition(
+            R.anim.left_enter,
+            R.anim.right_out
+        )
     }
 
     private fun deleteTask(task: Task, adapterPosition: Int) {
@@ -130,6 +143,14 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
                 notifyItemRemoved(adapterPosition)
                 taskList.removeAt(adapterPosition)
                 notifyItemRangeChanged(adapterPosition, taskList.size)
+                if (taskList.size == 0) {
+                    val activity = mCtx as Activity
+                    activity.overridePendingTransition(
+                        R.anim.left_enter,
+                        R.anim.right_out
+                    )
+                    activity.finish()
+                }
             }
         }
 
@@ -141,11 +162,38 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
 
         val gson = Gson()
         val json = gson.toJson(task)
-        Toast.makeText(mCtx, "Uploaded$json", Toast.LENGTH_LONG).show()
+        //Toast.makeText(mCtx, "Uploaded$json", Toast.LENGTH_LONG).show()
         Log.d("TEST", "Uploaded$json")
 
-        //notifyItemRemoved(adapterPosition)
-        //taskList.removeAt(adapterPosition)
-        //notifyItemRangeChanged(adapterPosition, taskList.size)
+        val loadingDialog = LoadingDialog(mCtx)
+        loadingDialog.showDialog()
+
+        val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
+        val call = service.postData_NewParameter(json)
+
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                loadingDialog.hideDialog()
+
+                try {
+                    val jsonObject = JSONObject(response.body()!!.string())
+                    if (jsonObject.getBoolean("response")) {
+                        deleteTask(task, adapterPosition)
+                        Toast.makeText(mCtx, "Data uploaded successfully!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(mCtx, "Unable to upload data", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(mCtx, "Unable to upload data! Something went wrong!", Toast.LENGTH_SHORT).show()
+                    //e.printStackTrace()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                loadingDialog.hideDialog()
+                Toast.makeText(mCtx, "Unable to send data", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

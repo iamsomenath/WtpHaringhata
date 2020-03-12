@@ -1,10 +1,12 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.adapter
 
-import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.sunanda.wtpharinghata.view.BlankFragment
+import com.sunanda.wtpharinghata.view.RawWaterFragment
+import com.sunanda.wtpharinghata.view.TreatedWaterFragment
 
 class MainActivityAdapter(private val myContext: Context, fm: FragmentManager, internal var totalTabs: Int)
     : FragmentPagerAdapter(fm) {

@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata;
+package com.sunanda.wtpharinghata.helper;
 
 import android.text.InputFilter;
 import android.text.Spanned;

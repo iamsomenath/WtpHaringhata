@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.view
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -10,6 +10,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
+import com.sunanda.wtpharinghata.adapter.MainActivityAdapter
+import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.database.Task
 
 
 class MainActivity : AppCompatActivity() {
@@ -79,7 +82,10 @@ class MainActivity : AppCompatActivity() {
         val id = item.itemId
         if (id == android.R.id.home) {
             super.onBackPressed()
-            overridePendingTransition(R.anim.right_in, R.anim.left_out)
+            overridePendingTransition(
+                R.anim.right_in,
+                R.anim.left_out
+            )
             finish()
         }
         return super.onOptionsItemSelected(item)

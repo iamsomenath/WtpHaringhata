@@ -1,10 +1,11 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.helper
 
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.sunanda.wtpharinghata.R
 
 class NetworkConnection : AppCompatActivity() {
 

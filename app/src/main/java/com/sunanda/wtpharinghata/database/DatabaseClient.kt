@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.database
 
 import android.annotation.SuppressLint
 import android.content.Context

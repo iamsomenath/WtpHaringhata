@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

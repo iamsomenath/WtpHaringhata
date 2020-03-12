@@ -1,24 +1,19 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.view
 
-import android.Manifest
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import android.util.Patterns
 import android.view.View
 import android.view.Window
 import android.view.animation.AnimationUtils
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import com.sunanda.wtp_app.util.SessionManager
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.IOException
+import com.sunanda.wtpharinghata.*
+import com.sunanda.wtpharinghata.helper.LoadingDialog
+import com.sunanda.wtpharinghata.helper.NetworkChangeReceiver
+import com.sunanda.wtpharinghata.helper.NetworkConnection
+import com.sunanda.wtpharinghata.helper.SessionManager
 
 class LoginActivity : AppCompatActivity() {
 
@@ -79,7 +74,10 @@ class LoginActivity : AppCompatActivity() {
                 }
             } else {
                 startActivity(Intent(this@LoginActivity, NetworkConnection::class.java))
-                overridePendingTransition(R.anim.left_enter, R.anim.right_out)
+                overridePendingTransition(
+                    R.anim.left_enter,
+                    R.anim.right_out
+                )
             }
         }
     }
@@ -103,7 +101,10 @@ class LoginActivity : AppCompatActivity() {
         restart.setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this@LoginActivity, WelcomeActivity::class.java))
-            overridePendingTransition(R.anim.left_in, R.anim.right_out)
+            overridePendingTransition(
+                R.anim.left_in,
+                R.anim.right_out
+            )
             finish()
         }
         dialog.show()

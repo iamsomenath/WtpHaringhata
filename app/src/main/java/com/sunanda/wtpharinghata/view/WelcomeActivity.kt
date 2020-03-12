@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.view
 
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -11,7 +11,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.sunanda.wtp_app.util.SessionManager
+import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.helper.SessionManager
 import kotlinx.android.synthetic.main.activity_welcome.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -60,7 +61,10 @@ class WelcomeActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.upload).setOnClickListener {
             startActivity(Intent(this@WelcomeActivity, TaskListActivity::class.java))
-            overridePendingTransition(R.anim.left_enter, R.anim.right_out)
+            overridePendingTransition(
+                R.anim.left_enter,
+                R.anim.right_out
+            )
         }
 
         findViewById<View>(R.id.submit).setOnClickListener {
@@ -76,7 +80,10 @@ class WelcomeActivity : AppCompatActivity() {
             intent.putExtra("DATE", selected_date)
             intent.putExtra("WTP", spChoiceStr)
             startActivity(intent)
-            overridePendingTransition(R.anim.left_enter, R.anim.right_out)
+            overridePendingTransition(
+                R.anim.left_enter,
+                R.anim.right_out
+            )
         }
     }
 

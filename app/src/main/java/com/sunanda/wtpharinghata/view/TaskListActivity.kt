@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata
+package com.sunanda.wtpharinghata.view
 
 import android.graphics.Typeface
 import android.os.AsyncTask
@@ -10,6 +10,10 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.adapter.TasksAdapter
+import com.sunanda.wtpharinghata.database.DatabaseClient
+import com.sunanda.wtpharinghata.database.Task
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -44,8 +48,7 @@ class TaskListActivity : AppCompatActivity() {
         class GetTasks : AsyncTask<Void, Void, List<Task>>() {
 
             override fun doInBackground(vararg voids: Void): List<Task> {
-                return DatabaseClient
-                    .getInstance(applicationContext)
+                return DatabaseClient.getInstance(applicationContext)
                     .appDatabase
                     .taskDao()
                     .getAllData
@@ -66,7 +69,10 @@ class TaskListActivity : AppCompatActivity() {
         val id = item.itemId
         if (id == android.R.id.home) {
             super.onBackPressed()
-            overridePendingTransition(R.anim.right_in, R.anim.left_out)
+            overridePendingTransition(
+                R.anim.right_in,
+                R.anim.left_out
+            )
             finish()
         }
         return super.onOptionsItemSelected(item)
