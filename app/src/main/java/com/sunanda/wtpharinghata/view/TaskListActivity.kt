@@ -2,11 +2,13 @@ package com.sunanda.wtpharinghata.view
 
 import android.graphics.Typeface
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +37,7 @@ class TaskListActivity : AppCompatActivity() {
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.left_arrow)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        toolbar_title.text = "Saved Data Lists"
+        toolbar_title.text = "Saved Lists"
     }
 
     override fun onResume() {
@@ -58,6 +60,20 @@ class TaskListActivity : AppCompatActivity() {
                 super.onPostExecute(tasks)
                 adapter = TasksAdapter(this@TaskListActivity, tasks as ArrayList<Task>)
                 recyclerView.adapter = adapter
+
+                if (tasks.isEmpty()) {
+
+                    val builder = AlertDialog.Builder(this@TaskListActivity)
+                    builder.setMessage("⚠ You don't have any saved data!")
+                    builder.setPositiveButton("OK"){dialogInterface, which ->
+                        dialogInterface.dismiss()
+                        overridePendingTransition(R.anim.right_in, R.anim.left_out)
+                        finish()
+                    }
+                    val alertDialog: AlertDialog = builder.create()
+                    alertDialog.setCancelable(false)
+                    alertDialog.show()
+                }
             }
         }
 
@@ -69,10 +85,7 @@ class TaskListActivity : AppCompatActivity() {
         val id = item.itemId
         if (id == android.R.id.home) {
             super.onBackPressed()
-            overridePendingTransition(
-                R.anim.right_in,
-                R.anim.left_out
-            )
+            overridePendingTransition(R.anim.right_in, R.anim.left_out)
             finish()
         }
         return super.onOptionsItemSelected(item)

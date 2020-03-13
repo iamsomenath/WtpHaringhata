@@ -163,7 +163,7 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
         val gson = Gson()
         val json = gson.toJson(task)
         //Toast.makeText(mCtx, "Uploaded$json", Toast.LENGTH_LONG).show()
-        Log.d("TEST", "Uploaded$json")
+        //Log.d("TEST", "Uploaded$json")
 
         val loadingDialog = LoadingDialog(mCtx)
         loadingDialog.showDialog()
@@ -182,7 +182,7 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
                         deleteTask(task, adapterPosition)
                         Toast.makeText(mCtx, "Data uploaded successfully!", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(mCtx, "Unable to upload data", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mCtx, "Unable to upload data. Please try again!", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
                     Toast.makeText(mCtx, "Unable to upload data! Something went wrong!", Toast.LENGTH_SHORT).show()
@@ -192,7 +192,7 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 loadingDialog.hideDialog()
-                Toast.makeText(mCtx, "Unable to send data", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mCtx, "It seems that your device don't or low network connection to upload data!!", Toast.LENGTH_SHORT).show()
             }
         })
     }
