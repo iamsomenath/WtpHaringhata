@@ -1,5 +1,6 @@
 package com.sunanda.wtpharinghata.view
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
@@ -30,8 +31,10 @@ class WelcomeActivity : AppCompatActivity() {
     var arrayList_details: ArrayList<String> = ArrayList()
     var spChoiceStr = ""
     var selected_date = ""
+    var formattedTime = ""
     var myCalendar = Calendar.getInstance()
 
+    @SuppressLint("SimpleDateFormat")
     private fun initValue() {
 
         sessionManager = SessionManager(this)
@@ -76,9 +79,14 @@ class WelcomeActivity : AppCompatActivity() {
                 showMessage("PLease Select Date", name)
                 return@setOnClickListener
             }
+            myCalendar = Calendar.getInstance()
+            val df1 = SimpleDateFormat("HH:mm:ss")
+            formattedTime = df1.format(myCalendar.time)
             val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
             intent.putExtra("DATE", selected_date)
+            intent.putExtra("TIME", formattedTime)
             intent.putExtra("WTP", spChoiceStr)
+            intent.putExtra("UID", UUID.randomUUID().toString())
             startActivity(intent)
             overridePendingTransition(
                 R.anim.left_enter,
@@ -87,6 +95,7 @@ class WelcomeActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
@@ -179,6 +188,12 @@ class WelcomeActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        selectWTP()
+        dob1.text = "DD/MM/YYYY"
     }
 
     override fun onBackPressed() {

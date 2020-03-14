@@ -2,6 +2,7 @@ package com.sunanda.wtpharinghata.view
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -10,16 +11,17 @@ import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
-import com.sunanda.wtpharinghata.adapter.MainActivityAdapter
 import com.sunanda.wtpharinghata.R
-import com.sunanda.wtpharinghata.database.Task
+import com.sunanda.wtpharinghata.adapter.MainActivityAdapter
+import com.sunanda.wtpharinghata.database.RowTable
 
 
 class MainActivity : AppCompatActivity() {
 
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
-    var myTask = Task()
+    var myRow = RowTable()
+    var flag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +40,9 @@ class MainActivity : AppCompatActivity() {
         if (!intent.hasExtra("DATE")) {
 
             val gson = Gson()
-            myTask = gson.fromJson(intent.getStringExtra("TASK"), Task::class.java)
-        }
+            myRow = gson.fromJson(intent.getStringExtra("ROW"), RowTable::class.java)
+        } else
+            flag = true
 
         init()
     }
@@ -52,8 +55,7 @@ class MainActivity : AppCompatActivity() {
         tabLayout!!.addTab(tabLayout!!.newTab().setText("TREATED WATER"))
         tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
 
-        val adapter =
-            MainActivityAdapter(this, supportFragmentManager, tabLayout!!.tabCount)
+        val adapter = MainActivityAdapter(this, supportFragmentManager, tabLayout!!.tabCount)
         viewPager!!.adapter = adapter
 
         viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
@@ -72,10 +74,11 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        if (myTask.type == "TREATED WATER")
-            viewPager!!.currentItem = 1
-        else
-            viewPager!!.currentItem = 0
+        when {
+            flag -> viewPager!!.currentItem = 0
+            TextUtils.isEmpty(myRow.raw) -> viewPager!!.currentItem = 1
+            else -> viewPager!!.currentItem = 0
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

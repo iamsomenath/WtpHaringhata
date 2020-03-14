@@ -1,10 +1,10 @@
 package com.sunanda.wtpharinghata.view
 
-
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,10 +17,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import com.sunanda.wtpharinghata.helper.DigitsInputFilter
+import com.google.gson.JsonParser
 import com.sunanda.wtpharinghata.R
 import com.sunanda.wtpharinghata.database.DatabaseClient
+import com.sunanda.wtpharinghata.database.RowTable
 import com.sunanda.wtpharinghata.database.Task
+import com.sunanda.wtpharinghata.helper.DigitsInputFilter
+import java.util.*
 
 
 class RawWaterFragment : Fragment() {
@@ -50,7 +53,9 @@ class RawWaterFragment : Fragment() {
     lateinit var chloroform: EditText
 
     var myDate = ""
+    var myTime = ""
     var wtpname = ""
+    var myRow = RowTable()
     var myTask = Task()
     var flag = false
 
@@ -61,7 +66,6 @@ class RawWaterFragment : Fragment() {
 
         myView = inflater.inflate(R.layout.fragment_raw_water, container, false)
         submit = myView.findViewById(R.id.saveData)
-
 
         alachlor = myView.findViewById(R.id.alachlor)
         atrazine = myView.findViewById(R.id.atrazine)
@@ -86,14 +90,22 @@ class RawWaterFragment : Fragment() {
         chloroform = myView.findViewById(R.id.chloroform)
 
         if (activity!!.intent.hasExtra("DATE")) {
-            myDate = activity!!.intent.getStringExtra("DATE")
-            wtpname = activity!!.intent.getStringExtra("WTP")
+            myDate = activity!!.intent.getStringExtra("DATE")!!
+            myTime = activity!!.intent.getStringExtra("TIME")!!
+            wtpname = activity!!.intent.getStringExtra("WTP")!!
         } else {
             val gson = Gson()
-            myTask = gson.fromJson(activity!!.intent.getStringExtra("TASK"), Task::class.java)
-            myDate = myTask.entrydate.toString()
-            wtpname = myTask.wtpname.toString()
-            if (myTask.type == "RAW WATER") {
+            myRow = gson.fromJson(activity!!.intent.getStringExtra("ROW"), RowTable::class.java)
+            myDate = myRow.rdate!!
+            myTime = myRow.rtime!!
+            wtpname = myRow.wtp_name!!
+
+            if (!TextUtils.isEmpty(myRow.raw)) {
+                val parser = JsonParser()
+                val mJson = parser.parse(myRow.raw)
+                val gson2 = Gson()
+                myTask = gson2.fromJson<Task>(mJson, Task::class.java)
+
                 flag = true
                 setData()
             }
@@ -170,11 +182,10 @@ class RawWaterFragment : Fragment() {
                 .setCancelable(false)
                 .setPositiveButton("Proceed") { dialog, id ->
 
-                    if (flag)
-                        updateTask()
-                    else
-                        saveTask()
-
+                    /*if (flag)
+                        updateRaw(myRow, myRow.rid)
+                    else*/
+                    saveTask()
                 }
                 .setNegativeButton("Cancel") { dialog, id ->
                     dialog.cancel()
@@ -250,50 +261,92 @@ class RawWaterFragment : Fragment() {
         val bromochloromethane_str = bromochloromethane.text.toString().trim()
         val chloroform_str = chloroform.text.toString().trim()
 
+        //creating a task
+        val task = Task()
+        task.taskId = activity!!.intent.getStringExtra("UID")
+        task.alachlor = alachlor_str
+        task.atrazine = atrazine_str
+        task.aldrin = aldrin_str
+        task.alpha_hch = alpha_hch_str
+        task.beta_hch = beta_hch_str
+        task.butachlor = butachlor_str
+        task.chlorpyriphos = chlorpyriphos_str
+        task.delta_hch = delta_hch_str
+        task.dichlor = dichlor_str
+        task.endosulfan = endosulfan_str
+        task.ethion = ethion_str
+        task.gamma = gamma_str
+        task.isoproturon = isoproturon_str
+        task.malathion = malathion_str
+        task.methyl = methyl_str
+        task.monocrotophos = monocrotophos_str
+        task.phorate = phorate_str
+        task.bromoform = Bromoform_str
+        task.dibromochloromethane = dibromochloromethane_str
+        task.bromochloromethane = bromochloromethane_str
+        task.chloroform = chloroform_str
+        task.type = "RAW WATER"
+        task.wtpname = wtpname
+        task.entrydate = "$myDate $myTime"
+
+        val gson = Gson()
+        val json = gson.toJson(task)
+
+        val rowTable = RowTable()
+        rowTable.rdate = myDate
+        rowTable.rtime = myTime
+        rowTable.wtp_name = wtpname
+        rowTable.raw = json
+
+        isExistsRow(myDate, myTime, wtpname, rowTable)
+    }
+
+    private fun isExistsRow(rdate: String, rtime: String, wtp: String, rowTable: RowTable) {
+
+        class getData : AsyncTask<Void, Void, Int>() {
+
+            override fun doInBackground(vararg voids: Void): Int {
+
+                //adding to database
+                val cnt = DatabaseClient.getInstance(activity!!)
+                    .appDatabase
+                    .rowTableDao()
+                    .isExists(rdate, rtime, wtp)
+                return cnt
+            }
+
+            override fun onPostExecute(cnt: Int) {
+                super.onPostExecute(cnt)
+                if (cnt == 0) {
+                    saveRaw(rowTable)
+                } else {
+                    updateRaw(rowTable, cnt)
+                }
+            }
+        }
+
+        val st = getData()
+        st.execute()
+    }
+
+    private fun saveRaw(rowTable: RowTable) {
 
         class SaveTask : AsyncTask<Void, Void, Void>() {
 
             override fun doInBackground(vararg voids: Void): Void? {
 
-                //creating a task
-                val task = Task()
-                task.alachlor = alachlor_str
-                task.atrazine = atrazine_str
-                task.aldrin = aldrin_str
-                task.alpha_hch = alpha_hch_str
-                task.beta_hch = beta_hch_str
-                task.butachlor = butachlor_str
-                task.chlorpyriphos = chlorpyriphos_str
-                task.delta_hch = delta_hch_str
-                task.dichlor = dichlor_str
-                task.endosulfan = endosulfan_str
-                task.ethion = ethion_str
-                task.gamma = gamma_str
-                task.isoproturon = isoproturon_str
-                task.malathion = malathion_str
-                task.methyl = methyl_str
-                task.monocrotophos = monocrotophos_str
-                task.phorate = phorate_str
-                task.bromoform = Bromoform_str
-                task.dibromochloromethane = dibromochloromethane_str
-                task.bromochloromethane = bromochloromethane_str
-                task.chloroform = chloroform_str
-                task.type = "RAW WATER"
-                task.wtpname = wtpname
-                task.entrydate = myDate
-
                 //adding to database
                 DatabaseClient.getInstance(activity!!)
                     .appDatabase
-                    .taskDao()
-                    .insert(task)
+                    .rowTableDao()
+                    .insert(rowTable)
                 return null
             }
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
                 Toast.makeText(activity!!, "Raw Water Data saved successfully", Toast.LENGTH_LONG).show()
-                clearFields()
+                //clearFields()
             }
         }
 
@@ -301,92 +354,28 @@ class RawWaterFragment : Fragment() {
         st.execute()
     }
 
-    private fun updateTask() {
+    private fun updateRaw(rowTable: RowTable, rid: Int) {
 
-        if (alachlor.text.toString().isEmpty() && atrazine.text.toString().isEmpty() && aldrin.text.toString().isEmpty() &&
-            alpha.text.toString().isEmpty() && beta.text.toString().isEmpty() && butachlor.text.toString().isEmpty() &&
-            chlorpyriphos.text.toString().isEmpty() && delta.text.toString().isEmpty() && dichlor.text.toString().isEmpty() &&
-            endosulfan.text.toString().isEmpty() && ethion.text.toString().isEmpty() && gamma.text.toString().isEmpty() &&
-            isoproturon.text.toString().isEmpty() && malathion.text.toString().isEmpty() && methyl.text.toString().isEmpty() &&
-            monocrotophos.text.toString().isEmpty() && phorate.text.toString().isEmpty() && bromoform.text.toString().isEmpty() &&
-            dibromochloromethane.text.toString().isEmpty() && bromochloromethane.text.toString().isEmpty() &&
-            chloroform.text.toString().isEmpty()
-        ) {
-            showMessage("Please enter at least one parameter value", submit)
-            return
-        }
-
-        val alachlor_str = alachlor.text.toString().trim()
-        val atrazine_str = atrazine.text.toString().trim()
-        val aldrin_str = aldrin.text.toString().trim()
-        val alpha_hch_str = alpha.text.toString().trim()
-        val beta_hch_str = beta.text.toString().trim()
-        val butachlor_str = butachlor.text.toString().trim()
-        val chlorpyriphos_str = chlorpyriphos.text.toString().trim()
-        val delta_hch_str = delta.text.toString().trim()
-        val dichlor_str = dichlor.text.toString().trim()
-        val endosulfan_str = endosulfan.text.toString().trim()
-        val ethion_str = ethion.text.toString().trim()
-        val gamma_str = gamma.text.toString().trim()
-        val isoproturon_str = isoproturon.text.toString().trim()
-        val malathion_str = malathion.text.toString().trim()
-        val methyl_str = methyl.text.toString().trim()
-        val monocrotophos_str = monocrotophos.text.toString().trim()
-        val phorate_str = phorate.text.toString().trim()
-        val Bromoform_str = bromoform.text.toString().trim()
-        val dibromochloromethane_str = dibromochloromethane.text.toString().trim()
-        val bromochloromethane_str = bromochloromethane.text.toString().trim()
-        val chloroform_str = chloroform.text.toString().trim()
-
-
-        class UpdateTask : AsyncTask<Void, Void, Void>() {
+        class UpdateRaw : AsyncTask<Void, Void, Void>() {
 
             override fun doInBackground(vararg voids: Void): Void? {
-
-                //creating a task
-                val task = Task()
-                task.id = myTask.id
-                task.alachlor = alachlor_str
-                task.atrazine = atrazine_str
-                task.aldrin = aldrin_str
-                task.alpha_hch = alpha_hch_str
-                task.beta_hch = beta_hch_str
-                task.butachlor = butachlor_str
-                task.chlorpyriphos = chlorpyriphos_str
-                task.delta_hch = delta_hch_str
-                task.dichlor = dichlor_str
-                task.endosulfan = endosulfan_str
-                task.ethion = ethion_str
-                task.gamma = gamma_str
-                task.isoproturon = isoproturon_str
-                task.malathion = malathion_str
-                task.methyl = methyl_str
-                task.monocrotophos = monocrotophos_str
-                task.phorate = phorate_str
-                task.bromoform = Bromoform_str
-                task.dibromochloromethane = dibromochloromethane_str
-                task.bromochloromethane = bromochloromethane_str
-                task.chloroform = chloroform_str
-                task.type = "RAW WATER"
-                task.wtpname = wtpname
-                task.entrydate = myDate
 
                 //adding to database
                 DatabaseClient.getInstance(activity!!)
                     .appDatabase
-                    .taskDao()
-                    .update(task)
+                    .rowTableDao()
+                    .updateRowRaw(rowTable.raw!!, rid)
                 return null
             }
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
                 Toast.makeText(activity!!, "Raw Water Data updated successfully", Toast.LENGTH_LONG).show()
-                clearFields()
+                //clearFields()
             }
         }
 
-        val st = UpdateTask()
+        val st = UpdateRaw()
         st.execute()
     }
 

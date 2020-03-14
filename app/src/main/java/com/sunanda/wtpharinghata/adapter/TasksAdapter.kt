@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
-import android.util.Log
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.sunanda.wtpharinghata.R
 import com.sunanda.wtpharinghata.database.DatabaseClient
-import com.sunanda.wtpharinghata.database.Task
+import com.sunanda.wtpharinghata.database.RowTable
 import com.sunanda.wtpharinghata.helper.APIDataService
 import com.sunanda.wtpharinghata.helper.LoadingDialog
 import com.sunanda.wtpharinghata.helper.RetrofitInstance
@@ -28,7 +29,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Task>) :
+class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<RowTable>) :
 
     RecyclerView.Adapter<TasksAdapter.TasksViewHolder>() {
 
@@ -39,30 +40,37 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
 
     override fun onBindViewHolder(holder: TasksViewHolder, position: Int) {
 
-        val t = taskList[position]
-        holder.textViewTask.text = t.wtpname
-        holder.textViewDesc.text = t.entrydate
-        holder.textViewFinishBy.text = t.type
+        val t = rowList[position]
+        holder.textViewTask.text = t.wtp_name
+        holder.textViewDesc.text = t.rdate + " " + t.rtime
+        if (TextUtils.isEmpty(t.raw))
+            holder.textViewType.text = "TREATED WATER"
+        else if (TextUtils.isEmpty(t.treated))
+            holder.textViewType.text = "RAW WATER"
+        else
+            holder.textViewType.text = "RAW WATER & TREATED WATER"
     }
 
     override fun getItemCount(): Int {
-        return taskList.size
+        return rowList.size
     }
 
     inner class TasksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
+        var mailLayout: RelativeLayout
         var textViewTask: TextView
         var textViewDesc: TextView
-        var textViewFinishBy: TextView
+        var textViewType: TextView
 
         var remove: Button
         var edit: Button
         var upload: Button
 
         init {
+            mailLayout = itemView.findViewById(R.id.mailLayout)
             textViewTask = itemView.findViewById(R.id.textViewTask)
             textViewDesc = itemView.findViewById(R.id.textViewDesc)
-            textViewFinishBy = itemView.findViewById(R.id.textViewFinishBy)
+            textViewType = itemView.findViewById(R.id.textViewFinishBy)
 
             remove = itemView.findViewById(R.id.remove)
             edit = itemView.findViewById(R.id.edit)
@@ -77,7 +85,7 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
 
         override fun onClick(view: View) {
 
-            val task = taskList[adapterPosition]
+            val row = rowList[adapterPosition]
 
             if (view.id == R.id.remove) {
 
@@ -85,7 +93,7 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
                 builder.setMessage("Are you sure to Remove?")
                 builder.setPositiveButton(
                     "Yes"
-                ) { dialogInterface, i -> deleteTask(task, adapterPosition) }
+                ) { dialogInterface, i -> deleteRow(row, adapterPosition) }
                 builder.setNegativeButton("No") { dialogInterface, i -> }
 
                 val ad = builder.create()
@@ -94,7 +102,7 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
 
             } else if (view.id == R.id.edit) {
 
-                EditTask(task)
+                EditRow(row)
 
             } else {
 
@@ -102,7 +110,15 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
                 builder.setMessage("Are you sure to Upload?")
                 builder.setPositiveButton(
                     "Yes"
-                ) { dialogInterface, i -> uploadTask(task, adapterPosition) }
+                ) { dialogInterface, i ->
+
+                    if (!TextUtils.isEmpty(row.raw)) {
+                        UploadRowRAW(row, adapterPosition)
+                    }
+                    if (!TextUtils.isEmpty(row.treated)) {
+                        UploadRowTREATED(row, adapterPosition)
+                    }
+                }
                 builder.setNegativeButton("No") { dialogInterface, i -> }
 
                 val ad = builder.create()
@@ -112,13 +128,14 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
         }
     }
 
-    private fun EditTask(task: Task) {
+    private fun EditRow(row: RowTable) {
+
         val activity = mCtx as Activity
         val gson = Gson()
-        val json = gson.toJson(task)
+        val json = gson.toJson(row)
         //Toast.makeText(mCtx, "Edit$json", Toast.LENGTH_LONG).show()
         val intent = Intent(mCtx, MainActivity::class.java)
-        intent.putExtra("TASK", json)
+        intent.putExtra("ROW", json)
         mCtx.startActivity(intent)
         activity.overridePendingTransition(
             R.anim.left_enter,
@@ -126,13 +143,14 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
         )
     }
 
-    private fun deleteTask(task: Task, adapterPosition: Int) {
-        class DeleteTask : AsyncTask<Void, Void, Void>() {
+    private fun deleteRow(row: RowTable, adapterPosition: Int) {
+
+        class DeleteRow : AsyncTask<Void, Void, Void>() {
 
             override fun doInBackground(vararg voids: Void): Void? {
                 DatabaseClient.getInstance(mCtx).appDatabase
-                    .taskDao()
-                    .delete(task)
+                    .rowTableDao()
+                    .delete(row)
                 return null
             }
 
@@ -141,9 +159,9 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
                 Toast.makeText(mCtx, "Item deleted successfully", Toast.LENGTH_LONG).show()
 
                 notifyItemRemoved(adapterPosition)
-                taskList.removeAt(adapterPosition)
-                notifyItemRangeChanged(adapterPosition, taskList.size)
-                if (taskList.size == 0) {
+                rowList.removeAt(adapterPosition)
+                notifyItemRangeChanged(adapterPosition, rowList.size)
+                if (rowList.size == 0) {
                     val activity = mCtx as Activity
                     activity.overridePendingTransition(
                         R.anim.left_enter,
@@ -154,16 +172,99 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
             }
         }
 
-        val dt = DeleteTask()
+        val dt = DeleteRow()
         dt.execute()
     }
 
-    private fun uploadTask(task: Task, adapterPosition: Int) {
+    private fun UploadRowRAW(row: RowTable, adapterPosition: Int) {
 
-        val gson = Gson()
-        val json = gson.toJson(task)
-        //Toast.makeText(mCtx, "Uploaded$json", Toast.LENGTH_LONG).show()
-        //Log.d("TEST", "Uploaded$json")
+        val loadingDialog = LoadingDialog(mCtx)
+        loadingDialog.showDialog()
+
+        val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
+        val call = service.postData_NewParameter(row.raw!!)
+
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                loadingDialog.hideDialog()
+
+                try {
+                    val jsonObject = JSONObject(response.body()!!.string())
+                    if (jsonObject.getBoolean("response")) {
+                        Toast.makeText(mCtx, "Data uploaded successfully!", Toast.LENGTH_SHORT).show()
+                        if (TextUtils.isEmpty(row.treated)) {
+                            deleteRow(row, adapterPosition)
+                        }
+                    } else {
+                        Toast.makeText(mCtx, "Unable to upload data. Please try again!", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(mCtx, "Unable to upload data! Something went wrong!", Toast.LENGTH_SHORT).show()
+                    //e.printStackTrace()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                loadingDialog.hideDialog()
+                Toast.makeText(
+                    mCtx, "It seems that your device don't or low network connection to upload data!!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
+    private fun UploadRowTREATED(row: RowTable, adapterPosition: Int) {
+
+        val loadingDialog = LoadingDialog(mCtx)
+        loadingDialog.showDialog()
+
+        val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
+        val call = service.postData_NewParameter(row.treated!!)
+
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                loadingDialog.hideDialog()
+
+                try {
+                    val jsonObject = JSONObject(response.body()!!.string())
+                    if (jsonObject.getBoolean("response")) {
+                        Toast.makeText(mCtx, "Data uploaded successfully!", Toast.LENGTH_SHORT).show()
+                        deleteRow(row, adapterPosition)
+                    } else {
+                        Toast.makeText(mCtx, "Unable to upload data. Please try again!", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(mCtx, "Unable to upload data! Something went wrong!", Toast.LENGTH_SHORT).show()
+                    //e.printStackTrace()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                loadingDialog.hideDialog()
+                Toast.makeText(
+                    mCtx,
+                    "It seems that your device don't or low network connection to upload data!!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
+
+    private fun UploadRowToServer(row: RowTable, adapterPosition: Int) {
+
+        var gson = Gson()
+        var json = gson.toJson(row)
+        if (TextUtils.isEmpty(row.raw)) {
+            gson = Gson()
+            json = gson.toJson(row.treated)
+        } else if (TextUtils.isEmpty(row.treated)) {
+            gson = Gson()
+            json = gson.toJson(row.raw)
+        }
 
         val loadingDialog = LoadingDialog(mCtx)
         loadingDialog.showDialog()
@@ -179,7 +280,7 @@ class TasksAdapter(private val mCtx: Context, private val taskList: ArrayList<Ta
                 try {
                     val jsonObject = JSONObject(response.body()!!.string())
                     if (jsonObject.getBoolean("response")) {
-                        deleteTask(task, adapterPosition)
+                        deleteRow(row, adapterPosition)
                         Toast.makeText(mCtx, "Data uploaded successfully!", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(mCtx, "Unable to upload data. Please try again!", Toast.LENGTH_SHORT).show()

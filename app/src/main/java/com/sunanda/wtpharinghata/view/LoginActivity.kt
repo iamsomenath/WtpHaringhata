@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
                     login_password.error = "Please Enter Password"
                     login_password.requestFocus()
                 } else {
-                    val flag: Boolean = UNAME == "haringhatawtp" && password == "password"
+                    val flag: Boolean = UNAME == "haringhatawtp" && password == "aaaaaa"
                     if(flag) {
                         sessionManager.setLogin(true)
                         showDialog()

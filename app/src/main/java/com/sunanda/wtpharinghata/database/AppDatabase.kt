@@ -5,7 +5,8 @@ import androidx.room.RoomDatabase
 import com.sunanda.wtpharinghata.database.Task
 import com.sunanda.wtpharinghata.database.TaskDao
 
-@Database(entities = [Task::class], version = 1)
+@Database(entities = [Task::class, RowTable::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
+    abstract fun rowTableDao(): RowTableDao
 }

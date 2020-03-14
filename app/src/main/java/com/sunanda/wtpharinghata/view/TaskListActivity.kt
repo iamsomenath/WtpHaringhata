@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sunanda.wtpharinghata.R
 import com.sunanda.wtpharinghata.adapter.TasksAdapter
 import com.sunanda.wtpharinghata.database.DatabaseClient
+import com.sunanda.wtpharinghata.database.RowTable
 import com.sunanda.wtpharinghata.database.Task
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -42,26 +45,26 @@ class TaskListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        getTasks()
+        getRowTable()
     }
 
-    private fun getTasks() {
+    private fun getRowTable() {
 
-        class GetTasks : AsyncTask<Void, Void, List<Task>>() {
+        class GetRowTable : AsyncTask<Void, Void, List<RowTable>>() {
 
-            override fun doInBackground(vararg voids: Void): List<Task> {
+            override fun doInBackground(vararg voids: Void): List<RowTable> {
                 return DatabaseClient.getInstance(applicationContext)
                     .appDatabase
-                    .taskDao()
-                    .getAllData
+                    .rowTableDao()
+                    .getAllRowData
             }
 
-            override fun onPostExecute(tasks: List<Task>) {
-                super.onPostExecute(tasks)
-                adapter = TasksAdapter(this@TaskListActivity, tasks as ArrayList<Task>)
+            override fun onPostExecute(rowTable : List<RowTable>) {
+                super.onPostExecute(rowTable)
+                adapter = TasksAdapter(this@TaskListActivity, rowTable as ArrayList<RowTable>)
                 recyclerView.adapter = adapter
 
-                if (tasks.isEmpty()) {
+                if (rowTable.isEmpty()) {
 
                     val builder = AlertDialog.Builder(this@TaskListActivity)
                     builder.setMessage("⚠ You don't have any saved data!")
@@ -77,7 +80,7 @@ class TaskListActivity : AppCompatActivity() {
             }
         }
 
-        val gt = GetTasks()
+        val gt = GetRowTable()
         gt.execute()
     }
 

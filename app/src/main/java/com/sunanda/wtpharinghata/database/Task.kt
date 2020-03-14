@@ -12,6 +12,9 @@ class Task : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
+    @ColumnInfo(name = "taskId")
+    var taskId: String? = null
+
     @ColumnInfo(name = "alachlor")
     var alachlor: String? = null
 
