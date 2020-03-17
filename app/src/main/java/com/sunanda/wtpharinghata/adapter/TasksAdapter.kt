@@ -172,6 +172,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
             }
         }
 
+
         val dt = DeleteRow()
         dt.execute()
     }
