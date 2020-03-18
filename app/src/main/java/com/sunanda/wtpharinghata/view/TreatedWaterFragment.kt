@@ -111,7 +111,7 @@ class TreatedWaterFragment : Fragment() {
             }
         }
 
-        alachlor.filters = arrayOf<android.text.InputFilter>(
+        /*alachlor.filters = arrayOf<android.text.InputFilter>(
             DigitsInputFilter(4, 4, 9999.9999)
         )
         atrazine.filters = arrayOf<android.text.InputFilter>(
@@ -173,7 +173,7 @@ class TreatedWaterFragment : Fragment() {
         )
         chloroform.filters = arrayOf<android.text.InputFilter>(
             DigitsInputFilter(4, 4, 9999.9999)
-        )
+        )*/
 
         submit.setOnClickListener {
 

@@ -23,6 +23,7 @@ import com.sunanda.wtpharinghata.helper.LoadingDialog
 import com.sunanda.wtpharinghata.helper.RetrofitInstance
 import com.sunanda.wtpharinghata.view.MainActivity
 import okhttp3.ResponseBody
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -156,8 +157,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
-                Toast.makeText(mCtx, "Item deleted successfully", Toast.LENGTH_LONG).show()
-
+                //Toast.makeText(mCtx, "Item deleted successfully", Toast.LENGTH_LONG).show()
                 notifyItemRemoved(adapterPosition)
                 rowList.removeAt(adapterPosition)
                 notifyItemRangeChanged(adapterPosition, rowList.size)
@@ -171,7 +171,6 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
                 }
             }
         }
-
 
         val dt = DeleteRow()
         dt.execute()
@@ -200,7 +199,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
                     } else {
                         Toast.makeText(mCtx, "Unable to upload data. Please try again!", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: Exception) {
+                } catch (e: JSONException) {
                     Toast.makeText(mCtx, "Unable to upload data! Something went wrong!", Toast.LENGTH_SHORT).show()
                     //e.printStackTrace()
                 }
@@ -210,7 +209,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
                 loadingDialog.hideDialog()
                 Toast.makeText(
                     mCtx, "It seems that your device don't or low network connection to upload data!!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
             }
         })
@@ -248,7 +247,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
                 Toast.makeText(
                     mCtx,
                     "It seems that your device don't or low network connection to upload data!!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
             }
         })
