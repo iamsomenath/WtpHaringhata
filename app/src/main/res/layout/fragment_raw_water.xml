@@ -19,6 +19,20 @@
                 android:layout_height="wrap_content">
 
             <TextView
+                    android:id="@+id/raw_text"
+                    android:background="@drawable/rectangle"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/dimen_5dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:gravity="center"
+                    android:layout_margin="7dp"
+                    android:text="River Kangshavati and River Kumari (Mukutmonipur Dam)"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/dimen_15sp"/>
+
+            <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima_nova_light"
@@ -30,7 +44,16 @@
                     android:textColor="@color/Black"
                     android:textSize="@dimen/dimen_18dp"/>
 
+            <CheckBox
+                    android:id="@+id/cb_alachlor"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_alachlor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -52,7 +75,47 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_alpha"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_alpha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/alpha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Alpha HCH (ppb)"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                    android:id="@+id/cb_atrazine"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_atrazine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -75,6 +138,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -96,29 +160,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <CheckBox
+                    android:id="@+id/cb_beta"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/paddingTop_et"
-                    android:paddingBottom="@dimen/paddingBottom_et"
-                    android:theme="@style/TextLabel">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/alpha"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/proxima_nova_light"
-                        android:hint="Alpha HCH (ppb)"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/black"
-                        android:textSize="14sp"
-                        app:backgroundTint="@color/black"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_beta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -140,7 +191,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_butachlor"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_butachlor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -162,7 +222,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_chlorpyriphos"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_chlorpyriphos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -184,7 +253,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_delta"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_delta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -207,6 +285,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -228,7 +307,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_endosulfan_sulphate"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_endosulfan_sulphate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -236,11 +324,11 @@
                     android:theme="@style/TextLabel">
 
                 <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/endosulfan"
+                        android:id="@+id/endosulfan_sulphate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/proxima_nova_light"
-                        android:hint="Endosulfan (alpha, beta and sulphate) (ppb)"
+                        android:hint="Endosulfan Sulphate (ppb)"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:textColor="@color/black"
@@ -250,7 +338,78 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_endosulfan1"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_endosulfan1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/endosulfan1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Endosulfan - 1 (ppb)"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                    android:id="@+id/cb_endosulfan2"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_endosulfan2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/endosulfan2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Endosulfan - 2 (ppb)"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                    android:id="@+id/cb_ethion"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_ethion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -272,7 +431,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_lindane"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_lindane"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -280,11 +448,11 @@
                     android:theme="@style/TextLabel">
 
                 <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/gamma"
+                        android:id="@+id/lindane"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/proxima_nova_light"
-                        android:hint="Gamma - HCH (Lindane) (ppb)"
+                        android:hint="Lindane (ppb)"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:textColor="@color/black"
@@ -295,6 +463,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -316,7 +485,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_malathion"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_malathion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -338,7 +516,47 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_op_ddt"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_op_ddt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/op_ddt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="o,p'-DDT (ppb)"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                    android:id="@+id/cb_methyl"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_methyl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -350,7 +568,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/proxima_nova_light"
-                        android:hint="Methyl Parathion (ppb)"
+                        android:hint="Parathion - Methyl (ppb)"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:textColor="@color/black"
@@ -361,6 +579,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -382,7 +601,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_phorate"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_phorate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -404,6 +632,37 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_pp_ddt"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_pp_ddt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/pp_ddt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="p,p'-DDT (ppb)"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                     android:layout_marginTop="@dimen/dimen_20dp"
                     android:layout_width="match_parent"
@@ -414,11 +673,52 @@
                     android:textAllCaps="true"
                     android:layout_marginLeft="@dimen/dimen_5dp"
                     android:layout_marginRight="@dimen/dimen_5dp"
+                    android:layout_marginBottom="@dimen/dimen_5dp"
                     android:text="Trihalomethanes"
                     android:textColor="@color/Black"
                     android:textSize="@dimen/dimen_18dp"/>
 
+            <CheckBox
+                    android:id="@+id/cb_bromodichloromethane"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_bromodichloromethane"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/bromodichloromethane"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Bromodichloromethane (ppb)"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                    android:id="@+id/cb_bromoform"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_bromoform"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -441,6 +741,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -463,6 +764,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"
@@ -484,7 +786,47 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                    android:id="@+id/cb_chlorodibromomethane"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_chlorodibromomethane"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/paddingTop_et"
+                    android:paddingBottom="@dimen/paddingBottom_et"
+                    android:theme="@style/TextLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chlorodibromomethane"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_nova_light"
+                        android:hint="Chlorodibromomethane (ppb)"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                    android:id="@+id/cb_chloroform"
+                    android:fontFamily="@font/proxima_nova_light"
+                    android:text="@string/not_found"
+                    app:buttonTint="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_chloroform"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingTop_et"

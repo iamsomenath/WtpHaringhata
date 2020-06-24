@@ -48,7 +48,7 @@ class Task : Serializable {
     @ColumnInfo(name = "ethion")
     var ethion: String? = null
 
-    @ColumnInfo(name = "gamma")
+    @ColumnInfo(name = "lindane")
     var gamma: String? = null
 
     @ColumnInfo(name = "isoproturon")
@@ -86,4 +86,23 @@ class Task : Serializable {
 
     @ColumnInfo(name = "entrydate")
     var entrydate: String? = null
+
+    // new filed added
+    @ColumnInfo(name = "endosulfan1")
+    var endosulfan1: String? = null
+
+    @ColumnInfo(name = "endosulfan2")
+    var endosulfan2: String? = null
+
+    @ColumnInfo(name = "op_ddt")
+    var op_ddt: String? = null
+
+    @ColumnInfo(name = "pp_ddt")
+    var pp_ddt: String? = null
+
+    @ColumnInfo(name = "bromodichloromethane")
+    var bromodichloromethane: String? = null
+
+    @ColumnInfo(name = "chlorodibromomethane")
+    var chlorodibromomethane: String? = null
 }

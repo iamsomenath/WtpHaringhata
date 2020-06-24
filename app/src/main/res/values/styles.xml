@@ -69,7 +69,7 @@
 
     <style name="customfontstyle" parent="@android:style/TextAppearance.Small">
         <item name="android:fontFamily">@font/proxima_nova_light</item>
-        <item name="android:textSize">@dimen/dimen_15sp</item>
+        <item name="android:textSize">@dimen/font_12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 

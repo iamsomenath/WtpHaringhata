@@ -31,6 +31,8 @@ class WelcomeActivity : AppCompatActivity() {
     var arrayList_details: ArrayList<String> = ArrayList()
     var spChoiceStr = ""
     var selected_date = ""
+    var selected_date2 = ""
+    var selected_date3 = ""
     var formattedTime = ""
     var myCalendar = Calendar.getInstance()
 
@@ -131,6 +133,50 @@ class WelcomeActivity : AppCompatActivity() {
             myCalendar = Calendar.getInstance()
             val dialog = DatePickerDialog(
                 this, date, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            )
+            dialog.datePicker.maxDate = Date().time
+            dialog.show()
+        }
+        val date2 = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            myCalendar = Calendar.getInstance()
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, monthOfYear)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val myFormat = "dd/MM/yyyy"
+            val sdf = SimpleDateFormat(myFormat, Locale.US)
+
+            dob2.text = sdf.format(myCalendar.time)
+            selected_date = dob2.text as String
+        }
+        dob2.setOnClickListener {
+            myCalendar = Calendar.getInstance()
+            val dialog = DatePickerDialog(
+                this, date2, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            )
+            dialog.datePicker.maxDate = Date().time
+            dialog.show()
+        }
+        val date3 = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            myCalendar = Calendar.getInstance()
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, monthOfYear)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val myFormat = "dd/MM/yyyy"
+            val sdf = SimpleDateFormat(myFormat, Locale.US)
+
+            dob3.text = sdf.format(myCalendar.time)
+            selected_date = dob3.text as String
+        }
+        dob3.setOnClickListener {
+            myCalendar = Calendar.getInstance()
+            val dialog = DatePickerDialog(
+                this, date3, myCalendar
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)
             )

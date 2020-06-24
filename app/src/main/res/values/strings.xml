@@ -2,5 +2,7 @@
     <string name="app_name">WTP HARINGHATA</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dichlor"><![CDATA[2,4-Dichlorophenoxyacetic acid, DDT (ppb)(o,p & p,p-Isomers of DDT, DDE &DDD)]]></string>
+    <string name="dichlor">
+        <![CDATA[2,4-Dichlorophenoxyacetic acid, DDT (ppb)(o,p & p,p-Isomers of DDT, DDE &DDD)]]></string>
+    <string name="not_found">Data Not Found</string>
 </resources>

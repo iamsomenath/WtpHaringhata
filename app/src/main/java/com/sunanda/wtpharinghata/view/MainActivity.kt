@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.left_arrow)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        toolbar_title.text = "RAW WATER & TREATED WATER"
+        toolbar_title.text = "WATER SOURCES"
 
         if (!intent.hasExtra("DATE")) {
 
@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         viewPager = findViewById<ViewPager>(R.id.viewPager)
 
         tabLayout!!.addTab(tabLayout!!.newTab().setText("RAW WATER"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("CLEAR WATER"))
         tabLayout!!.addTab(tabLayout!!.newTab().setText("TREATED WATER"))
         tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
 
