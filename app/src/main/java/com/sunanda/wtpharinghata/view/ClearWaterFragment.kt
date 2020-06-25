@@ -7,17 +7,16 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-
 import com.sunanda.wtpharinghata.R
 import com.sunanda.wtpharinghata.database.DatabaseClient
 import com.sunanda.wtpharinghata.database.RowTable
@@ -80,7 +79,11 @@ class ClearWaterFragment : Fragment() {
     internal var chlorodibromomethane_flag = false
     internal var chloroform_flag = false
 
-    var myDate = ""
+    var currentDate = ""
+    var myCollectionDate = ""
+    var myReceiveDate = ""
+    var myTestDate = ""
+    var sampleId = ""
     var myTime = ""
     var wtpname = ""
     var myRow = RowTable()
@@ -124,20 +127,27 @@ class ClearWaterFragment : Fragment() {
         bromodichloromethane = myView.findViewById(R.id.bromodichloromethane)
         chlorodibromomethane = myView.findViewById(R.id.chlorodibromomethane)
 
-        if (activity!!.intent.hasExtra("DATE")) {
-            myDate = activity!!.intent.getStringExtra("DATE")!!
+        if (activity!!.intent.hasExtra("CDATE")) {
+            currentDate = activity!!.intent.getStringExtra("CURDATE")!!
+            myCollectionDate = activity!!.intent.getStringExtra("CDATE")!!
+            myReceiveDate = activity!!.intent.getStringExtra("RDATE")!!
+            myTestDate = activity!!.intent.getStringExtra("TDATE")!!
+            sampleId = activity!!.intent.getStringExtra("SAMPLEID")!!
             myTime = activity!!.intent.getStringExtra("TIME")!!
             wtpname = activity!!.intent.getStringExtra("WTP")!!
         } else {
             val gson = Gson()
             myRow = gson.fromJson(activity!!.intent.getStringExtra("ROW"), RowTable::class.java)
-            myDate = myRow.rdate!!
+            myCollectionDate = myRow.cdate!!
+            myReceiveDate = myRow.rdate!!
+            myTestDate = myRow.tdate!!
+            sampleId = myRow.sid!!
             myTime = myRow.rtime!!
             wtpname = myRow.wtp_name!!
 
             if (!TextUtils.isEmpty(myRow.raw)) {
                 val parser = JsonParser()
-                val mJson = parser.parse(myRow.raw)
+                val mJson = parser.parse(myRow.clear)
                 val gson2 = Gson()
                 myTask = gson2.fromJson<Task>(mJson, Task::class.java)
 
@@ -257,7 +267,7 @@ class ClearWaterFragment : Fragment() {
                 myView.findViewById<TextInputLayout>(R.id.tl_alachlor).visibility = View.VISIBLE
         }
         myView.findViewById<CheckBox>(R.id.cb_alpha).setOnCheckedChangeListener { buttonView, isChecked ->
-            alpha_flag = !alachlor_flag
+            alpha_flag = !alpha_flag
             if (isChecked)
                 myView.findViewById<TextInputLayout>(R.id.tl_alpha).visibility = View.GONE
             else
@@ -413,33 +423,138 @@ class ClearWaterFragment : Fragment() {
     private fun setData() {
 
         alachlor.setText(myTask.alachlor)
+        if (myTask.alachlor.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_alachlor).isChecked = true
+            alachlor_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_alachlor).visibility = View.GONE
+        }
         atrazine.setText(myTask.atrazine)
-        aldrin.setText(myTask.aldrin)
+        if (myTask.atrazine.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_atrazine).isChecked = true
+            atrazine_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_atrazine).visibility = View.GONE
+        }
+        //aldrin.setText(myTask.aldrin)
         alpha.setText(myTask.alpha_hch)
+        if (myTask.alpha_hch.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_alpha).isChecked = true
+            alpha_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_alpha).visibility = View.GONE
+        }
         beta.setText(myTask.beta_hch)
+        if (myTask.beta_hch.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_beta).isChecked = true
+            beta_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_beta).visibility = View.GONE
+        }
         butachlor.setText(myTask.butachlor)
+        if (myTask.butachlor.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_butachlor).isChecked = true
+            butachlor_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_butachlor).visibility = View.GONE
+        }
         chlorpyriphos.setText(myTask.chlorpyriphos)
+        if (myTask.chlorpyriphos.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_chlorpyriphos).isChecked = true
+            chlorpyriphos_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_chlorpyriphos).visibility = View.GONE
+        }
         delta.setText(myTask.delta_hch)
-        dichlor.setText(myTask.dichlor)
+        if (myTask.delta_hch.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_delta).isChecked = true
+            delta_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_delta).visibility = View.GONE
+        }
+        //dichlor.setText(myTask.dichlor)
         endosulfan_sulphate.setText(myTask.endosulfan)
+        if (myTask.endosulfan.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_endosulfan_sulphate).isChecked = true
+            endosulfan_sulphate_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_endosulfan_sulphate).visibility = View.GONE
+        }
         ethion.setText(myTask.ethion)
+        if (myTask.ethion.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_ethion).isChecked = true
+            ethion_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_ethion).visibility = View.GONE
+        }
         lindane.setText(myTask.gamma)
-        isoproturon.setText(myTask.isoproturon)
+        if (myTask.gamma.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_lindane).isChecked = true
+            lindane_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_lindane).visibility = View.GONE
+        }
+        //isoproturon.setText(myTask.isoproturon)
         malathion.setText(myTask.malathion)
+        if (myTask.malathion.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_malathion).isChecked = true
+            malathion_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_malathion).visibility = View.GONE
+        }
         methyl.setText(myTask.methyl)
-        monocrotophos.setText(myTask.monocrotophos)
+        if (myTask.methyl.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_methyl).isChecked = true
+            methyl_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_methyl).visibility = View.GONE
+        }
+        //monocrotophos.setText(myTask.monocrotophos)
         phorate.setText(myTask.phorate)
+        if (myTask.alachlor.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_phorate).isChecked = true
+            phorate_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_phorate).visibility = View.GONE
+        }
         bromoform.setText(myTask.bromoform)
-        dibromochloromethane.setText(myTask.dibromochloromethane)
-        bromochloromethane.setText(myTask.bromochloromethane)
+        if (myTask.bromoform.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_bromoform).isChecked = true
+            bromoform_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_bromoform).visibility = View.GONE
+        }
+        //dibromochloromethane.setText(myTask.dibromochloromethane)
+        //bromochloromethane.setText(myTask.bromochloromethane)
         chloroform.setText(myTask.chloroform)
+        if (myTask.chloroform.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_chloroform).isChecked = true
+            chloroform_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_chloroform).visibility = View.GONE
+        }
         // new field added
         endosulfan1.setText(myTask.endosulfan1)
+        if (myTask.endosulfan1.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_endosulfan1).isChecked = true
+            endosulfan1_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_endosulfan1).visibility = View.GONE
+        }
         endosulfan2.setText(myTask.endosulfan2)
+        if (myTask.endosulfan2.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_endosulfan2).isChecked = true
+            endosulfan2_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_endosulfan2).visibility = View.GONE
+        }
         op_ddt.setText(myTask.op_ddt)
+        if (myTask.alachlor.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_op_ddt).isChecked = true
+            op_ddt_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_op_ddt).visibility = View.GONE
+        }
         pp_ddt.setText(myTask.pp_ddt)
+        if (myTask.pp_ddt.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_pp_ddt).isChecked = true
+            pp_ddt_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_pp_ddt).visibility = View.GONE
+        }
         bromodichloromethane.setText(myTask.bromodichloromethane)
+        if (myTask.bromodichloromethane.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_bromodichloromethane).isChecked = true
+            bromodichloromethane_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_bromodichloromethane).visibility = View.GONE
+        }
         chlorodibromomethane.setText(myTask.chlorodibromomethane)
+        if (myTask.chlorodibromomethane.isNullOrEmpty()) {
+            myView.findViewById<CheckBox>(R.id.cb_chlorodibromomethane).isChecked = true
+            chlorodibromomethane_flag = true
+            myView.findViewById<TextInputLayout>(R.id.tl_chlorodibromomethane).visibility = View.GONE
+        }
     }
 
     private fun saveTask() {
@@ -638,9 +753,9 @@ class ClearWaterFragment : Fragment() {
         task.dibromochloromethane = dibromochloromethane_str
         task.bromochloromethane = bromochloromethane_str
         task.chloroform = chloroform_str
-        task.type = "RAW WATER"
+        task.type = "CLEAR WATER"
         task.wtpname = wtpname
-        task.entrydate = "$myDate $myTime"
+        task.entrydate = "$currentDate $myTime"
         // new added filed
         task.endosulfan1 = endosulfan1_str
         task.endosulfan2 = endosulfan2_str
@@ -648,20 +763,26 @@ class ClearWaterFragment : Fragment() {
         task.pp_ddt = pp_ddt_str
         task.bromodichloromethane = bromodichloromethane_str
         task.chlorodibromomethane = chlorodibromomethane_str
+        task.collection_date = myCollectionDate
+        task.receive_date = myReceiveDate
+        task.test_date = myTestDate
 
         val gson = Gson()
         val json = gson.toJson(task)
 
         val rowTable = RowTable()
-        rowTable.rdate = myDate
-        rowTable.rtime = myTime
+        rowTable.rdate = myReceiveDate
+        rowTable.cdate = myCollectionDate
+        rowTable.tdate = myTestDate
+        rowTable.sid = sampleId
         rowTable.wtp_name = wtpname
-        rowTable.raw = json
+        rowTable.rtime = myTime
+        rowTable.clear = json
 
-        isExistsRow(myDate, myTime, wtpname, rowTable)
+        isExistsClear(sampleId, rowTable)
     }
 
-    private fun isExistsRow(rdate: String, rtime: String, wtp: String, rowTable: RowTable) {
+    /*private fun isExistsRow(rdate: String, rtime: String, wtp: String, rowTable: RowTable) {
 
         class getData : AsyncTask<Void, Void, Int>() {
 
@@ -687,9 +808,37 @@ class ClearWaterFragment : Fragment() {
 
         val st = getData()
         st.execute()
+    }*/
+
+    private fun isExistsClear(sid: String, rowTable: RowTable) {
+
+        class getData : AsyncTask<Void, Void, Int>() {
+
+            override fun doInBackground(vararg voids: Void): Int {
+
+                //adding to database
+                val cnt = DatabaseClient.getInstance(activity!!)
+                    .appDatabase
+                    .rowTableDao()
+                    .isExists(sid)
+                return cnt
+            }
+
+            override fun onPostExecute(cnt: Int) {
+                super.onPostExecute(cnt)
+                if (cnt == 0) {
+                    saveClear(rowTable)
+                } else {
+                    updateClear(rowTable, cnt)
+                }
+            }
+        }
+
+        val st = getData()
+        st.execute()
     }
 
-    private fun saveRaw(rowTable: RowTable) {
+    private fun saveClear(rowTable: RowTable) {
 
         class SaveTask : AsyncTask<Void, Void, Void>() {
 
@@ -705,7 +854,7 @@ class ClearWaterFragment : Fragment() {
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
-                Toast.makeText(activity!!, "Raw Water Data saved successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity!!, "Clear Water Data saved successfully", Toast.LENGTH_LONG).show()
                 //clearFields()
             }
         }
@@ -714,9 +863,9 @@ class ClearWaterFragment : Fragment() {
         st.execute()
     }
 
-    private fun updateRaw(rowTable: RowTable, rid: Int) {
+    private fun updateClear(rowTable: RowTable, rid: Int) {
 
-        class UpdateRaw : AsyncTask<Void, Void, Void>() {
+        class UpdateClear : AsyncTask<Void, Void, Void>() {
 
             override fun doInBackground(vararg voids: Void): Void? {
 
@@ -724,18 +873,18 @@ class ClearWaterFragment : Fragment() {
                 DatabaseClient.getInstance(activity!!)
                     .appDatabase
                     .rowTableDao()
-                    .updateRowRaw(rowTable.raw!!, rid)
+                    .updateRowClear(rowTable.clear!!, rid)
                 return null
             }
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
-                Toast.makeText(activity!!, "Raw Water Data updated successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity!!, "Clear Water Data updated successfully", Toast.LENGTH_LONG).show()
                 //clearFields()
             }
         }
 
-        val st = UpdateRaw()
+        val st = UpdateClear()
         st.execute()
     }
 

@@ -87,6 +87,18 @@ class Task : Serializable {
     @ColumnInfo(name = "entrydate")
     var entrydate: String? = null
 
+    @ColumnInfo(name = "collection_date")
+    var collection_date: String? = null
+
+    @ColumnInfo(name = "receive_date")
+    var receive_date: String? = null
+
+    @ColumnInfo(name = "test_date")
+    var test_date: String? = null
+
+    @ColumnInfo(name = "sample_id")
+    var sample_id: String? = null
+
     // new filed added
     @ColumnInfo(name = "endosulfan1")
     var endosulfan1: String? = null

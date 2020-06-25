@@ -7,18 +7,22 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
 import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.helper.LoadingDialog
 import com.sunanda.wtpharinghata.helper.SessionManager
 import kotlinx.android.synthetic.main.activity_welcome.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -30,13 +34,13 @@ class WelcomeActivity : AppCompatActivity() {
     private var JSON: String? = null
     var arrayList_details: ArrayList<String> = ArrayList()
     var spChoiceStr = ""
-    var selected_date = ""
-    var selected_date2 = ""
-    var selected_date3 = ""
+    var collect_selected_date = ""
+    var receive_selected_date = ""
+    var test_selected_date = ""
     var formattedTime = ""
     var myCalendar = Calendar.getInstance()
 
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun initValue() {
 
         sessionManager = SessionManager(this)
@@ -74,26 +78,54 @@ class WelcomeActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.submit).setOnClickListener {
             if (spChoiceStr.equals("Select WTP", false)) {
-                showMessage("PLease Select WTP", name)
+                showMessage("Please Select WTP", name)
                 return@setOnClickListener
             }
             if (dob1.text == "DD/MM/YYYY") {
-                showMessage("PLease Select Date", name)
+                showMessage("PLease Select Collection Date", name)
                 return@setOnClickListener
             }
+            if (dob2.text == "DD/MM/YYYY") {
+                showMessage("Please Select Receive Date", name)
+                return@setOnClickListener
+            }
+            if (dob3.text == "DD/MM/YYYY") {
+                showMessage("Please Select Test Date", name)
+                return@setOnClickListener
+            }
+            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            val currentDate = sdf.format(Date())
             myCalendar = Calendar.getInstance()
             val df1 = SimpleDateFormat("HH:mm:ss")
             formattedTime = df1.format(myCalendar.time)
             val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
-            intent.putExtra("DATE", selected_date)
+            intent.putExtra("CDATE", collect_selected_date)
+            intent.putExtra("CURDATE", currentDate)
+            intent.putExtra("RDATE", receive_selected_date)
+            intent.putExtra("TDATE", test_selected_date)
+            intent.putExtra("SAMPLEID", sample_id.text.toString())
             intent.putExtra("TIME", formattedTime)
             intent.putExtra("WTP", spChoiceStr)
+            intent.putExtra("WTPID", "")
+            intent.putExtra("DISTID", "")
             intent.putExtra("UID", UUID.randomUUID().toString())
             startActivity(intent)
             overridePendingTransition(
                 R.anim.left_enter,
                 R.anim.right_out
             )
+        }
+
+        generate.setOnClickListener {
+            val SPLASH_TIME_OUT = 2500
+            val loadingDialog = LoadingDialog(this)
+            loadingDialog.showDialog()
+            Handler().postDelayed({
+                loadingDialog.hideDialog()
+                val rand = Random()
+                sample_id.text = (rand.nextInt((999 - 100) + 1) + 100).toString() + "-" +
+                        (rand.nextInt((9999 - 1000) + 1) + 1000).toString()
+            }, SPLASH_TIME_OUT.toLong())
         }
     }
 
@@ -127,7 +159,7 @@ class WelcomeActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat(myFormat, Locale.US)
 
             dob1.text = sdf.format(myCalendar.time)
-            selected_date = dob1.text as String
+            collect_selected_date = dob1.text as String
         }
         dob1.setOnClickListener {
             myCalendar = Calendar.getInstance()
@@ -149,7 +181,7 @@ class WelcomeActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat(myFormat, Locale.US)
 
             dob2.text = sdf.format(myCalendar.time)
-            selected_date = dob2.text as String
+            receive_selected_date = dob2.text as String
         }
         dob2.setOnClickListener {
             myCalendar = Calendar.getInstance()
@@ -171,7 +203,7 @@ class WelcomeActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat(myFormat, Locale.US)
 
             dob3.text = sdf.format(myCalendar.time)
-            selected_date = dob3.text as String
+            test_selected_date = dob3.text as String
         }
         dob3.setOnClickListener {
             myCalendar = Calendar.getInstance()
@@ -240,6 +272,8 @@ class WelcomeActivity : AppCompatActivity() {
         super.onResume()
         selectWTP()
         dob1.text = "DD/MM/YYYY"
+        dob2.text = "DD/MM/YYYY"
+        dob3.text = "DD/MM/YYYY"
     }
 
     override fun onBackPressed() {

@@ -1,5 +1,6 @@
 package com.sunanda.wtpharinghata.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -39,17 +40,26 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
         return TasksViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TasksViewHolder, position: Int) {
 
         val t = rowList[position]
         holder.textViewTask.text = t.wtp_name
         holder.textViewDesc.text = t.rdate + " " + t.rtime
-        if (TextUtils.isEmpty(t.raw))
+        if (TextUtils.isEmpty(t.raw) && TextUtils.isEmpty(t.clear))
             holder.textViewType.text = "TREATED WATER"
-        else if (TextUtils.isEmpty(t.treated))
+        else if (TextUtils.isEmpty(t.treated) && TextUtils.isEmpty(t.clear))
             holder.textViewType.text = "RAW WATER"
+        else if (TextUtils.isEmpty(t.treated) && TextUtils.isEmpty(t.raw))
+            holder.textViewType.text = "CLEAR WATER"
+        else if (TextUtils.isEmpty(t.raw))
+            holder.textViewType.text = "CLEAR WATER, TREATED WATER"
+        else if (TextUtils.isEmpty(t.treated))
+            holder.textViewType.text = "RAW WATER, CLEAR WATER"
+        else if (TextUtils.isEmpty(t.clear))
+            holder.textViewType.text = "RAW WATER, TREATED WATER"
         else
-            holder.textViewType.text = "RAW WATER & TREATED WATER"
+            holder.textViewType.text = "RAW WATER, CLEAR WATER, TREATED WATER"
     }
 
     override fun getItemCount(): Int {
@@ -118,6 +128,9 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
                     }
                     if (!TextUtils.isEmpty(row.treated)) {
                         UploadRowTREATED(row, adapterPosition)
+                    }
+                    if (!TextUtils.isEmpty(row.clear)) {
+                        UploadRowCLEAR(row, adapterPosition)
                     }
                 }
                 builder.setNegativeButton("No") { dialogInterface, i -> }
@@ -254,23 +267,13 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
     }
 
 
-    private fun UploadRowToServer(row: RowTable, adapterPosition: Int) {
-
-        var gson = Gson()
-        var json = gson.toJson(row)
-        if (TextUtils.isEmpty(row.raw)) {
-            gson = Gson()
-            json = gson.toJson(row.treated)
-        } else if (TextUtils.isEmpty(row.treated)) {
-            gson = Gson()
-            json = gson.toJson(row.raw)
-        }
+    private fun UploadRowCLEAR(row: RowTable, adapterPosition: Int) {
 
         val loadingDialog = LoadingDialog(mCtx)
         loadingDialog.showDialog()
 
         val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
-        val call = service.postData_NewParameter(json)
+        val call = service.postData_NewParameter(row.clear!!)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -280,8 +283,8 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
                 try {
                     val jsonObject = JSONObject(response.body()!!.string())
                     if (jsonObject.getBoolean("response")) {
-                        deleteRow(row, adapterPosition)
                         Toast.makeText(mCtx, "Data uploaded successfully!", Toast.LENGTH_SHORT).show()
+                        deleteRow(row, adapterPosition)
                     } else {
                         Toast.makeText(mCtx, "Unable to upload data. Please try again!", Toast.LENGTH_SHORT).show()
                     }
@@ -293,7 +296,11 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 loadingDialog.hideDialog()
-                Toast.makeText(mCtx, "It seems that your device don't or low network connection to upload data!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    mCtx,
+                    "It seems that your device don't or low network connection to upload data!!",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
     }

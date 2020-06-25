@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
@@ -37,8 +38,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         toolbar_title.text = "WATER SOURCES"
 
-        if (!intent.hasExtra("DATE")) {
-
+        if (!intent.hasExtra("CDATE")) {
             val gson = Gson()
             myRow = gson.fromJson(intent.getStringExtra("ROW"), RowTable::class.java)
         } else
@@ -85,19 +85,33 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == android.R.id.home) {
-            super.onBackPressed()
-            overridePendingTransition(
-                R.anim.right_in,
-                R.anim.left_out
-            )
-            finish()
+            showDialog()
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.right_in, R.anim.left_out)
-        finish()
+        showDialog()
+    }
+
+    private fun showDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Do you want to go Back?")
+        builder.setMessage("It may loose your filled information!")
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            dialog.dismiss()
+            super.onBackPressed()
+            overridePendingTransition(R.anim.right_in, R.anim.left_out)
+            finish()
+        }
+        /*builder.setNegativeButton("Maybe") { dialog, which ->
+            Toast.makeText(applicationContext,
+                android.R.string.no, Toast.LENGTH_SHORT).show()
+        }*/
+        builder.setNeutralButton(android.R.string.no) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
+        builder.setCancelable(false)
     }
 }

@@ -9,6 +9,6 @@ import retrofit2.http.POST
 interface APIDataService {
 
     @FormUrlEncoded
-    @POST("postData_NewParameter")
+    @POST("postData_NewParameter1")
     fun postData_NewParameter(@Field("val") value: String): Call<ResponseBody>
 }
