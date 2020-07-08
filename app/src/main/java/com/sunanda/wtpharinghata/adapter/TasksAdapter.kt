@@ -19,10 +19,11 @@ import com.google.gson.Gson
 import com.sunanda.wtpharinghata.R
 import com.sunanda.wtpharinghata.database.DatabaseClient
 import com.sunanda.wtpharinghata.database.RowTable
-import com.sunanda.wtpharinghata.helper.APIDataService
+import com.sunanda.wtpharinghata.rest.APIDataService
 import com.sunanda.wtpharinghata.helper.LoadingDialog
 import com.sunanda.wtpharinghata.helper.RetrofitInstance
-import com.sunanda.wtpharinghata.view.MainActivity
+import com.sunanda.wtpharinghata.helper.SessionManager
+import com.sunanda.wtpharinghata.view.activity.MainActivity
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -34,6 +35,8 @@ import retrofit2.Response
 class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<RowTable>) :
 
     RecyclerView.Adapter<TasksAdapter.TasksViewHolder>() {
+
+    var sessionManager : SessionManager = SessionManager(mCtx)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
         val view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_tasks, parent, false)
@@ -98,46 +101,47 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
 
             val row = rowList[adapterPosition]
 
-            if (view.id == R.id.remove) {
+            when {
+                view.id == R.id.remove -> {
 
-                val builder = AlertDialog.Builder(mCtx)
-                builder.setMessage("Are you sure to Remove?")
-                builder.setPositiveButton(
-                    "Yes"
-                ) { dialogInterface, i -> deleteRow(row, adapterPosition) }
-                builder.setNegativeButton("No") { dialogInterface, i -> }
+                    val builder = AlertDialog.Builder(mCtx)
+                    builder.setMessage("Are you sure to Remove?")
+                    builder.setPositiveButton(
+                        "Yes"
+                    ) { dialogInterface, i -> deleteRow(row, adapterPosition) }
+                    builder.setNegativeButton("No") { dialogInterface, i -> }
 
-                val ad = builder.create()
-                ad.setCancelable(false)
-                ad.show()
+                    val ad = builder.create()
+                    ad.setCancelable(false)
+                    ad.show()
 
-            } else if (view.id == R.id.edit) {
-
-                EditRow(row)
-
-            } else {
-
-                val builder = AlertDialog.Builder(mCtx)
-                builder.setMessage("Are you sure to Upload?")
-                builder.setPositiveButton(
-                    "Yes"
-                ) { dialogInterface, i ->
-
-                    if (!TextUtils.isEmpty(row.raw)) {
-                        UploadRowRAW(row, adapterPosition)
-                    }
-                    if (!TextUtils.isEmpty(row.treated)) {
-                        UploadRowTREATED(row, adapterPosition)
-                    }
-                    if (!TextUtils.isEmpty(row.clear)) {
-                        UploadRowCLEAR(row, adapterPosition)
-                    }
                 }
-                builder.setNegativeButton("No") { dialogInterface, i -> }
+                view.id == R.id.edit -> EditRow(row)
+                else -> {
 
-                val ad = builder.create()
-                ad.setCancelable(false)
-                ad.show()
+                    val builder = AlertDialog.Builder(mCtx)
+                    builder.setMessage("Are you sure to Upload?")
+                    builder.setPositiveButton(
+                        "Yes"
+                    ) { dialogInterface, i ->
+
+                        /*if (!TextUtils.isEmpty(row.raw)) {
+                            UploadRow(row, adapterPosition)
+                        }
+                        if (!TextUtils.isEmpty(row.treated)) {
+                            UploadRowTREATED(row, adapterPosition)
+                        }
+                        if (!TextUtils.isEmpty(row.clear)) {
+                            UploadRowCLEAR(row, adapterPosition)
+                        }*/
+                        UploadRow(row, adapterPosition)
+                    }
+                    builder.setNegativeButton("No") { dialogInterface, i -> }
+
+                    val ad = builder.create()
+                    ad.setCancelable(false)
+                    ad.show()
+                }
             }
         }
     }
@@ -171,6 +175,9 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
                 //Toast.makeText(mCtx, "Item deleted successfully", Toast.LENGTH_LONG).show()
+                val tempList = sessionManager.getArrayList()
+                tempList.remove(row.sid)
+                sessionManager.saveArrayList(tempList)
                 notifyItemRemoved(adapterPosition)
                 rowList.removeAt(adapterPosition)
                 notifyItemRangeChanged(adapterPosition, rowList.size)
@@ -189,13 +196,13 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
         dt.execute()
     }
 
-    private fun UploadRowRAW(row: RowTable, adapterPosition: Int) {
+    private fun UploadRow(row: RowTable, adapterPosition: Int) {
 
         val loadingDialog = LoadingDialog(mCtx)
         loadingDialog.showDialog()
 
         val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
-        val call = service.postData_NewParameter(row.raw!!)
+        val call = service.postData_NewParameter(Gson().toJson(row).toString())
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -273,6 +280,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
         loadingDialog.showDialog()
 
         val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
+        //val call = service.postData_NewParameter(row.clear!!)
         val call = service.postData_NewParameter(row.clear!!)
 
         call.enqueue(object : Callback<ResponseBody> {

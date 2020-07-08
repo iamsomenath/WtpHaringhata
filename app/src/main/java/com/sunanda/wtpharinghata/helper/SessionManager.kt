@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
 
 class SessionManager @SuppressLint("CommitPrefEdits")
 
@@ -39,7 +42,6 @@ constructor(internal var _context: Context) {
     }
 
     fun setLogin(isLoggedIn: Boolean) {
-
         editor.putBoolean(KEY_IS_LOGGED_IN, isLoggedIn)
         editor.commit()
     }
@@ -49,6 +51,20 @@ constructor(internal var _context: Context) {
         editor.clear()
         // commit changes
         editor.commit()
+    }
+
+    fun saveArrayList(list: ArrayList<String>) {
+        val gson = Gson()
+        val json = gson.toJson(list)
+        editor.putString("SAMPLE_ID", json)
+        editor.apply()
+    }
+
+    fun getArrayList(): ArrayList<String> {
+        val gson = Gson()
+        val json = pref.getString("SAMPLE_ID", null)
+        val type = object : TypeToken<ArrayList<String>>() {}.type
+        return gson.fromJson(json, type)
     }
 
     companion object {

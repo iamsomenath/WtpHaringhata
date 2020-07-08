@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata.view
+package com.sunanda.wtpharinghata.view.fragment
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -17,13 +17,14 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.model.WTP_Pojo
 import com.sunanda.wtpharinghata.database.DatabaseClient
 import com.sunanda.wtpharinghata.database.RowTable
 import com.sunanda.wtpharinghata.database.Task
 import com.sunanda.wtpharinghata.helper.DigitsInputFilter
+import com.sunanda.wtpharinghata.helper.SessionManager
 
-
-class RawWaterFragment : Fragment() {
+class TreatedWaterFragment : Fragment() {
 
     lateinit var submit: Button
     lateinit var myView: View
@@ -78,6 +79,8 @@ class RawWaterFragment : Fragment() {
     internal var chlorodibromomethane_flag = false
     internal var chloroform_flag = false
 
+    lateinit var treated_text : TextView
+
     var currentDate = ""
     var myCollectionDate = ""
     var myReceiveDate = ""
@@ -85,17 +88,25 @@ class RawWaterFragment : Fragment() {
     var sampleId = ""
     var myTime = ""
     var wtpname = ""
+    var wtpId = ""
+    var dist_code = ""
+    var dist_name = ""
+
     var myRow = RowTable()
     var myTask = Task()
     var flag = false
+
+    lateinit var sessionManager : SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        myView = inflater.inflate(R.layout.fragment_raw_water, container, false)
+        myView = inflater.inflate(R.layout.fragment_treated_water, container, false)
         submit = myView.findViewById(R.id.saveData)
+
+        sessionManager = SessionManager(activity!!)
 
         alachlor = myView.findViewById(R.id.alachlor)
         atrazine = myView.findViewById(R.id.atrazine)
@@ -126,7 +137,10 @@ class RawWaterFragment : Fragment() {
         bromodichloromethane = myView.findViewById(R.id.bromodichloromethane)
         chlorodibromomethane = myView.findViewById(R.id.chlorodibromomethane)
 
+        treated_text = myView.findViewById(R.id.treated_text)
+
         if (activity!!.intent.hasExtra("CDATE")) {
+            treated_text.text = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).treatedWaterSource
             currentDate = activity!!.intent.getStringExtra("CURDATE")!!
             myCollectionDate = activity!!.intent.getStringExtra("CDATE")!!
             myReceiveDate = activity!!.intent.getStringExtra("RDATE")!!
@@ -134,6 +148,9 @@ class RawWaterFragment : Fragment() {
             sampleId = activity!!.intent.getStringExtra("SAMPLEID")!!
             myTime = activity!!.intent.getStringExtra("TIME")!!
             wtpname = activity!!.intent.getStringExtra("WTP")!!
+            wtpId = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).wtpId!!
+            dist_code = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).districtCode!!
+            dist_name = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).districtName!!
         } else {
             val gson = Gson()
             myRow = gson.fromJson(activity!!.intent.getStringExtra("ROW"), RowTable::class.java)
@@ -143,10 +160,13 @@ class RawWaterFragment : Fragment() {
             sampleId = myRow.sid!!
             myTime = myRow.rtime!!
             wtpname = myRow.wtp_name!!
+            wtpId = myRow.wtp_id!!
+            dist_code = myRow.dist_code!!
+            dist_name = myRow.dist_name!!
 
-            if (!TextUtils.isEmpty(myRow.raw)) {
+            if (!TextUtils.isEmpty(myRow.treated)) {
                 val parser = JsonParser()
-                val mJson = parser.parse(myRow.raw)
+                val mJson = parser.parse(myRow.treated)
                 val gson2 = Gson()
                 myTask = gson2.fromJson<Task>(mJson, Task::class.java)
 
@@ -245,7 +265,7 @@ class RawWaterFragment : Fragment() {
                 .setCancelable(false)
                 .setPositiveButton("Proceed") { dialog, id ->
                     /*if (flag)
-                        updateRaw(myRow, myRow.rid)
+                        updateTask()
                     else*/
                     saveTask()
                 }
@@ -409,16 +429,6 @@ class RawWaterFragment : Fragment() {
         return myView
     }
 
-    /*  Not in use
-    Aldrin/Dieldrin
-    2,4-Dichlorophenoxyacetic acid, DDT (ppb)(o,p
-    p,p-Isomers of DDT, DDE &DDD)"
-    isoproturon
-    Monocrotophos
-    Dibromochloromethane
-    Bromochloromethane
-    */
-
     private fun setData() {
 
         alachlor.setText(myTask.alachlor)
@@ -572,6 +582,7 @@ class RawWaterFragment : Fragment() {
             showMessage("Please enter at least one parameter value", submit)
             return
         }*/
+
         if (alachlor.text.toString().isEmpty() && !alachlor_flag) {
             alachlor.error = ""
             alachlor.requestFocus()
@@ -752,7 +763,7 @@ class RawWaterFragment : Fragment() {
         task.dibromochloromethane = dibromochloromethane_str
         task.bromochloromethane = bromochloromethane_str
         task.chloroform = chloroform_str
-        task.type = "RAW WATER"
+        task.type = "TREATED WATER"
         task.wtpname = wtpname
         task.entrydate = "$currentDate $myTime"
         // new added filed
@@ -775,11 +786,15 @@ class RawWaterFragment : Fragment() {
         rowTable.tdate = myTestDate
         rowTable.sid = sampleId
         rowTable.wtp_name = wtpname
+        rowTable.wtp_id = wtpId
+        rowTable.dist_code = dist_code
+        rowTable.dist_name = dist_name
         rowTable.rtime = myTime
-        rowTable.raw = json
+        rowTable.treated = json
 
-        isExistsRow(sampleId, rowTable)
+        isExistsTreate(sampleId, rowTable)
     }
+
 
     /*private fun isExistsRow(rdate: String, rtime: String, wtp: String, rowTable: RowTable) {
 
@@ -798,9 +813,9 @@ class RawWaterFragment : Fragment() {
             override fun onPostExecute(cnt: Int) {
                 super.onPostExecute(cnt)
                 if (cnt == 0) {
-                    saveRaw(rowTable)
+                    saveTreated(rowTable)
                 } else {
-                    updateRaw(rowTable, cnt)
+                    updateTreated(rowTable, cnt)
                 }
             }
         }
@@ -809,7 +824,7 @@ class RawWaterFragment : Fragment() {
         st.execute()
     }*/
 
-    private fun isExistsRow(sid: String, rowTable: RowTable) {
+    private fun isExistsTreate(sid: String, rowTable: RowTable) {
 
         class getData : AsyncTask<Void, Void, Int>() {
 
@@ -826,9 +841,20 @@ class RawWaterFragment : Fragment() {
             override fun onPostExecute(cnt: Int) {
                 super.onPostExecute(cnt)
                 if (cnt == 0) {
-                    saveRaw(rowTable)
+                    try {
+                        val tempList = sessionManager.getArrayList()
+                        if (!tempList.contains(activity!!.intent.getStringExtra("SAMPLEID")!!)) {
+                            tempList.add(activity!!.intent.getStringExtra("SAMPLEID")!!)
+                            sessionManager.saveArrayList(tempList)
+                        }
+                    } catch (e: Exception) {
+                        val tempList = ArrayList<String>()
+                        tempList.add(activity!!.intent.getStringExtra("SAMPLEID")!!)
+                        sessionManager.saveArrayList(tempList)
+                    }
+                    saveTreated(rowTable)
                 } else {
-                    updateRaw(rowTable, cnt)
+                    updateTreated(rowTable, cnt)
                 }
             }
         }
@@ -837,9 +863,9 @@ class RawWaterFragment : Fragment() {
         st.execute()
     }
 
-    private fun saveRaw(rowTable: RowTable) {
+    private fun saveTreated(rowTable: RowTable) {
 
-        class SaveTask : AsyncTask<Void, Void, Void>() {
+        class SaveTreated : AsyncTask<Void, Void, Void>() {
 
             override fun doInBackground(vararg voids: Void): Void? {
 
@@ -853,18 +879,18 @@ class RawWaterFragment : Fragment() {
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
-                Toast.makeText(activity!!, "Raw Water Data saved successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity!!, "Treated Water Data saved successfully", Toast.LENGTH_LONG).show()
                 //clearFields()
             }
         }
 
-        val st = SaveTask()
+        val st = SaveTreated()
         st.execute()
     }
 
-    private fun updateRaw(rowTable: RowTable, rid: Int) {
+    private fun updateTreated(rowTable: RowTable, rid: Int) {
 
-        class UpdateRaw : AsyncTask<Void, Void, Void>() {
+        class UpdateTreated : AsyncTask<Void, Void, Void>() {
 
             override fun doInBackground(vararg voids: Void): Void? {
 
@@ -872,18 +898,18 @@ class RawWaterFragment : Fragment() {
                 DatabaseClient.getInstance(activity!!)
                     .appDatabase
                     .rowTableDao()
-                    .updateRowRaw(rowTable.raw!!, rid)
+                    .updateRowTreated(rowTable.treated!!, rid)
                 return null
             }
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
-                Toast.makeText(activity!!, "Raw Water Data updated successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity!!, "Treated Water Data saved successfully", Toast.LENGTH_LONG).show()
                 //clearFields()
             }
         }
 
-        val st = UpdateRaw()
+        val st = UpdateTreated()
         st.execute()
     }
 

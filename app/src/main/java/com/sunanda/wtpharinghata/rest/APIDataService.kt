@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata.helper
+package com.sunanda.wtpharinghata.rest
 
 import okhttp3.ResponseBody
 import retrofit2.Call

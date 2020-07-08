@@ -9,7 +9,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".view.LoginActivity">
+        tools:context=".view.activity.LoginActivity">
 
     <ImageView
             android:id="@+id/imageView2"

@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata.view
+package com.sunanda.wtpharinghata.view.fragment
 
 
 import android.graphics.Color
@@ -18,10 +18,12 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.sunanda.wtpharinghata.R
+import com.sunanda.wtpharinghata.model.WTP_Pojo
 import com.sunanda.wtpharinghata.database.DatabaseClient
 import com.sunanda.wtpharinghata.database.RowTable
 import com.sunanda.wtpharinghata.database.Task
 import com.sunanda.wtpharinghata.helper.DigitsInputFilter
+import com.sunanda.wtpharinghata.helper.SessionManager
 
 
 class ClearWaterFragment : Fragment() {
@@ -79,6 +81,8 @@ class ClearWaterFragment : Fragment() {
     internal var chlorodibromomethane_flag = false
     internal var chloroform_flag = false
 
+    lateinit var clear_text: TextView
+
     var currentDate = ""
     var myCollectionDate = ""
     var myReceiveDate = ""
@@ -86,9 +90,15 @@ class ClearWaterFragment : Fragment() {
     var sampleId = ""
     var myTime = ""
     var wtpname = ""
+    var wtpId = ""
+    var dist_code = ""
+    var dist_name = ""
+
     var myRow = RowTable()
     var myTask = Task()
     var flag = false
+
+    lateinit var sessionManager : SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,6 +107,8 @@ class ClearWaterFragment : Fragment() {
 
         myView = inflater.inflate(R.layout.fragment_clear_water, container, false)
         submit = myView.findViewById(R.id.saveData)
+
+        sessionManager = SessionManager(activity!!)
 
         alachlor = myView.findViewById(R.id.alachlor) as EditText
         atrazine = myView.findViewById(R.id.atrazine)
@@ -127,14 +139,20 @@ class ClearWaterFragment : Fragment() {
         bromodichloromethane = myView.findViewById(R.id.bromodichloromethane)
         chlorodibromomethane = myView.findViewById(R.id.chlorodibromomethane)
 
+        clear_text = myView.findViewById(R.id.clear_text)
+
         if (activity!!.intent.hasExtra("CDATE")) {
+            clear_text.text = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).clearWaterSource
             currentDate = activity!!.intent.getStringExtra("CURDATE")!!
             myCollectionDate = activity!!.intent.getStringExtra("CDATE")!!
             myReceiveDate = activity!!.intent.getStringExtra("RDATE")!!
             myTestDate = activity!!.intent.getStringExtra("TDATE")!!
             sampleId = activity!!.intent.getStringExtra("SAMPLEID")!!
             myTime = activity!!.intent.getStringExtra("TIME")!!
-            wtpname = activity!!.intent.getStringExtra("WTP")!!
+            wtpname = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).wtpName!!
+            wtpId = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).wtpId!!
+            dist_code = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).districtCode!!
+            dist_name = (activity!!.intent.getSerializableExtra("VAL") as WTP_Pojo).districtName!!
         } else {
             val gson = Gson()
             myRow = gson.fromJson(activity!!.intent.getStringExtra("ROW"), RowTable::class.java)
@@ -144,6 +162,9 @@ class ClearWaterFragment : Fragment() {
             sampleId = myRow.sid!!
             myTime = myRow.rtime!!
             wtpname = myRow.wtp_name!!
+            wtpId = myRow.wtp_id!!
+            dist_code = myRow.dist_code!!
+            dist_name = myRow.dist_name!!
 
             if (!TextUtils.isEmpty(myRow.raw)) {
                 val parser = JsonParser()
@@ -776,6 +797,9 @@ class ClearWaterFragment : Fragment() {
         rowTable.tdate = myTestDate
         rowTable.sid = sampleId
         rowTable.wtp_name = wtpname
+        rowTable.wtp_id = wtpId
+        rowTable.dist_code = dist_code
+        rowTable.dist_name = dist_name
         rowTable.rtime = myTime
         rowTable.clear = json
 
@@ -827,6 +851,17 @@ class ClearWaterFragment : Fragment() {
             override fun onPostExecute(cnt: Int) {
                 super.onPostExecute(cnt)
                 if (cnt == 0) {
+                    try {
+                        val tempList = sessionManager.getArrayList()
+                        if (!tempList.contains(activity!!.intent.getStringExtra("SAMPLEID")!!)) {
+                            tempList.add(activity!!.intent.getStringExtra("SAMPLEID")!!)
+                            sessionManager.saveArrayList(tempList)
+                        }
+                    } catch (e: Exception) {
+                        val tempList = ArrayList<String>()
+                        tempList.add(activity!!.intent.getStringExtra("SAMPLEID")!!)
+                        sessionManager.saveArrayList(tempList)
+                    }
                     saveClear(rowTable)
                 } else {
                     updateClear(rowTable, cnt)
@@ -879,7 +914,7 @@ class ClearWaterFragment : Fragment() {
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
-                Toast.makeText(activity!!, "Clear Water Data updated successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity!!, "Clear Water Data saved successfully", Toast.LENGTH_LONG).show()
                 //clearFields()
             }
         }

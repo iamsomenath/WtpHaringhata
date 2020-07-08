@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata.view
+package com.sunanda.wtpharinghata.view.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        val SPLASH_TIME_OUT = 4000
+        val SPLASH_TIME_OUT = 3000
         Handler().postDelayed({ NextTask() }, SPLASH_TIME_OUT.toLong())
     }
 

@@ -29,6 +29,15 @@ class RowTable : Serializable {
     @ColumnInfo(name = "wtp_name")
     var wtp_name: String? = null
 
+    @ColumnInfo(name = "wtp_id")
+    var wtp_id: String? = null
+
+    @ColumnInfo(name = "dist_code")
+    var dist_code: String? = null
+
+    @ColumnInfo(name = "dist_name")
+    var dist_name: String? = null
+
     @ColumnInfo(name = "raw")
     var raw: String? = null
 

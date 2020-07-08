@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata.view
+package com.sunanda.wtpharinghata.view.activity
 
 import android.app.Dialog
 import android.content.Intent

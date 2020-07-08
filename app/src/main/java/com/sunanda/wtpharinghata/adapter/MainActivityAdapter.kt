@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.sunanda.wtpharinghata.view.BlankFragment
-import com.sunanda.wtpharinghata.view.ClearWaterFragment
-import com.sunanda.wtpharinghata.view.RawWaterFragment
-import com.sunanda.wtpharinghata.view.TreatedWaterFragment
+import com.sunanda.wtpharinghata.view.fragment.BlankFragment
+import com.sunanda.wtpharinghata.view.fragment.ClearWaterFragment
+import com.sunanda.wtpharinghata.view.fragment.RawWaterFragment
+import com.sunanda.wtpharinghata.view.fragment.TreatedWaterFragment
 
 class MainActivityAdapter(private val myContext: Context, fm: FragmentManager, internal var totalTabs: Int)
     : FragmentPagerAdapter(fm) {

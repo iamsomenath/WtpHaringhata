@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata.view
+package com.sunanda.wtpharinghata.view.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

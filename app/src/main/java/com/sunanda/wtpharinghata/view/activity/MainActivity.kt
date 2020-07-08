@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata.view
+package com.sunanda.wtpharinghata.view.activity
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -96,8 +96,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Do you want to go Back?")
-        builder.setMessage("It may loose your filled information!")
+        //builder.setTitle("Do you want to go Back?")
+        //builder.setMessage("It may loose your filled information!")
+        builder.setMessage("Do you want to go Back?")
         builder.setPositiveButton(android.R.string.yes) { dialog, which ->
             dialog.dismiss()
             super.onBackPressed()
@@ -111,7 +112,8 @@ class MainActivity : AppCompatActivity() {
         builder.setNeutralButton(android.R.string.no) { dialog, which ->
             dialog.dismiss()
         }
-        builder.show()
         builder.setCancelable(false)
+        builder.show()
+        builder.create()
     }
 }

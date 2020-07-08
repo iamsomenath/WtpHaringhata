@@ -1,4 +1,4 @@
-package com.sunanda.wtpharinghata.view
+package com.sunanda.wtpharinghata.view.activity
 
 import android.graphics.Typeface
 import android.os.AsyncTask
@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,8 +15,6 @@ import com.sunanda.wtpharinghata.R
 import com.sunanda.wtpharinghata.adapter.TasksAdapter
 import com.sunanda.wtpharinghata.database.DatabaseClient
 import com.sunanda.wtpharinghata.database.RowTable
-import com.sunanda.wtpharinghata.database.Task
-import java.util.*
 import kotlin.collections.ArrayList
 
 class TaskListActivity : AppCompatActivity() {
