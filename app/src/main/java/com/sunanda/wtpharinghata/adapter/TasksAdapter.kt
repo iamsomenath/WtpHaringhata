@@ -125,16 +125,17 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
                         "Yes"
                     ) { dialogInterface, i ->
 
-                        /*if (!TextUtils.isEmpty(row.raw)) {
-                            UploadRow(row, adapterPosition)
+                        val json = JSONObject(Gson().toJson(row))
+                        if (TextUtils.isEmpty(row.raw)) {
+                            json.put("raw", "")
                         }
-                        if (!TextUtils.isEmpty(row.treated)) {
-                            UploadRowTREATED(row, adapterPosition)
+                        if (TextUtils.isEmpty(row.treated)) {
+                            json.put("treated", "")
                         }
-                        if (!TextUtils.isEmpty(row.clear)) {
-                            UploadRowCLEAR(row, adapterPosition)
-                        }*/
-                        UploadRow(row, adapterPosition)
+                        if (TextUtils.isEmpty(row.clear)) {
+                            json.put("clear", "")
+                        }
+                        UploadRow(json.toString(), row, adapterPosition)
                     }
                     builder.setNegativeButton("No") { dialogInterface, i -> }
 
@@ -196,13 +197,13 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
         dt.execute()
     }
 
-    private fun UploadRow(row: RowTable, adapterPosition: Int) {
+    private fun UploadRow(str: String, row : RowTable, adapterPosition: Int) {
 
         val loadingDialog = LoadingDialog(mCtx)
         loadingDialog.showDialog()
 
         val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
-        val call = service.postData_NewParameter(Gson().toJson(row).toString())
+        val call = service.postData_NewParameter(str)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -211,11 +212,9 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
 
                 try {
                     val jsonObject = JSONObject(response.body()!!.string())
-                    if (jsonObject.getBoolean("response")) {
+                    if (jsonObject.getBoolean("status") && jsonObject.getInt("resCode") == 200) {
                         Toast.makeText(mCtx, "Data uploaded successfully!", Toast.LENGTH_SHORT).show()
-                        if (TextUtils.isEmpty(row.treated)) {
-                            deleteRow(row, adapterPosition)
-                        }
+                        deleteRow(row, adapterPosition)
                     } else {
                         Toast.makeText(mCtx, "Unable to upload data. Please try again!", Toast.LENGTH_SHORT).show()
                     }
@@ -272,7 +271,6 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
             }
         })
     }
-
 
     private fun UploadRowCLEAR(row: RowTable, adapterPosition: Int) {
 

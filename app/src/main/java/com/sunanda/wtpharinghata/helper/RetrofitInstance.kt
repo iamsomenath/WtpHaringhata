@@ -7,8 +7,8 @@ object RetrofitInstance {
 
     private var retrofit: Retrofit? = null
 
-    private val sURL = "http://wtpreports.sunandainternational.org/"
-    private val sPHP_PATH = "WaterTestApi/"
+    private val sURL = "http://phed.sunandainternational.org/"
+    private val sPHP_PATH = "api/gcms-wtp/"
     private val sMAIN_PHP_PATH = sURL + sPHP_PATH
 
     var BASE_URL = sMAIN_PHP_PATH

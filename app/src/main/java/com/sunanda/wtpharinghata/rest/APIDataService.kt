@@ -9,6 +9,6 @@ import retrofit2.http.POST
 interface APIDataService {
 
     @FormUrlEncoded
-    @POST("postData_NewParameter1")
-    fun postData_NewParameter(@Field("val") value: String): Call<ResponseBody>
+    @POST("gcms-app-data-save")
+    fun postData_NewParameter(@Field("gcms_wtp") value: String): Call<ResponseBody>
 }
