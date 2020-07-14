@@ -25,7 +25,6 @@ import com.sunanda.wtpharinghata.helper.RetrofitInstance
 import com.sunanda.wtpharinghata.helper.SessionManager
 import com.sunanda.wtpharinghata.view.activity.MainActivity
 import okhttp3.ResponseBody
-import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -202,7 +201,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
         val loadingDialog = LoadingDialog(mCtx)
         loadingDialog.showDialog()
 
-        val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
+        val service = RetrofitInstance.retrofitInstance.create(APIDataService::class.java)
         val call = service.postData_NewParameter(str)
 
         call.enqueue(object : Callback<ResponseBody> {
@@ -218,7 +217,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
                     } else {
                         Toast.makeText(mCtx, "Unable to upload data. Please try again!", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: JSONException) {
+                } catch (e: Exception) {
                     Toast.makeText(mCtx, "Unable to upload data! Something went wrong!", Toast.LENGTH_SHORT).show()
                     //e.printStackTrace()
                 }
@@ -239,7 +238,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
         val loadingDialog = LoadingDialog(mCtx)
         loadingDialog.showDialog()
 
-        val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
+        val service = RetrofitInstance.retrofitInstance.create(APIDataService::class.java)
         val call = service.postData_NewParameter(row.treated!!)
 
         call.enqueue(object : Callback<ResponseBody> {
@@ -277,7 +276,7 @@ class TasksAdapter(private val mCtx: Context, private val rowList: ArrayList<Row
         val loadingDialog = LoadingDialog(mCtx)
         loadingDialog.showDialog()
 
-        val service = RetrofitInstance.retrofitInstance3.create(APIDataService::class.java)
+        val service = RetrofitInstance.retrofitInstance.create(APIDataService::class.java)
         //val call = service.postData_NewParameter(row.clear!!)
         val call = service.postData_NewParameter(row.clear!!)
 

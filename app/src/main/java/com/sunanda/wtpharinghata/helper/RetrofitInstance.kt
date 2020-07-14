@@ -16,7 +16,7 @@ object RetrofitInstance {
     /**
      * Create an instance of Retrofit object
      */
-    val retrofitInstance3: Retrofit
+    val retrofitInstance: Retrofit
         get() {
             if (retrofit == null) {
                 retrofit = retrofit2.Retrofit.Builder()

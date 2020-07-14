@@ -1,5 +1,6 @@
 package com.sunanda.wtpharinghata.view.fragment
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.AsyncTask
@@ -17,12 +18,14 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.sunanda.wtpharinghata.R
-import com.sunanda.wtpharinghata.model.WTP_Pojo
 import com.sunanda.wtpharinghata.database.DatabaseClient
 import com.sunanda.wtpharinghata.database.RowTable
 import com.sunanda.wtpharinghata.database.Task
 import com.sunanda.wtpharinghata.helper.DigitsInputFilter
 import com.sunanda.wtpharinghata.helper.SessionManager
+import com.sunanda.wtpharinghata.model.WTP_Pojo
+import com.sunanda.wtpharinghata.view.activity.MainActivity
+import com.sunanda.wtpharinghata.view.activity.WelcomeActivity
 
 class TreatedWaterFragment : Fragment() {
 
@@ -98,6 +101,7 @@ class TreatedWaterFragment : Fragment() {
 
     lateinit var sessionManager : SessionManager
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -106,7 +110,7 @@ class TreatedWaterFragment : Fragment() {
         myView = inflater.inflate(R.layout.fragment_treated_water, container, false)
         submit = myView.findViewById(R.id.saveData)
 
-        sessionManager = SessionManager(activity!!)
+        sessionManager = SessionManager((activity as MainActivity))
 
         alachlor = myView.findViewById(R.id.alachlor)
         atrazine = myView.findViewById(R.id.atrazine)
@@ -260,7 +264,7 @@ class TreatedWaterFragment : Fragment() {
 
         submit.setOnClickListener {
 
-            val dialogBuilder = AlertDialog.Builder(activity!!)
+            val dialogBuilder = AlertDialog.Builder((activity as MainActivity))
             dialogBuilder.setMessage("Do you want to save these entry?")
                 .setCancelable(false)
                 .setPositiveButton("Proceed") { dialog, id ->
@@ -566,6 +570,7 @@ class TreatedWaterFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     private fun saveTask() {
 
         /*if (alachlor.text.toString().isEmpty() && atrazine.text.toString().isEmpty() && aldrin.text.toString().isEmpty() &&
@@ -803,7 +808,7 @@ class TreatedWaterFragment : Fragment() {
             override fun doInBackground(vararg voids: Void): Int {
 
                 //adding to database
-                val cnt = DatabaseClient.getInstance(activity!!)
+                val cnt = DatabaseClient.getInstance((activity as MainActivity))
                     .appDatabase
                     .rowTableDao()
                     .isExists(rdate, rtime, wtp)
@@ -831,7 +836,7 @@ class TreatedWaterFragment : Fragment() {
             override fun doInBackground(vararg voids: Void): Int {
 
                 //adding to database
-                val cnt = DatabaseClient.getInstance(activity!!)
+                val cnt = DatabaseClient.getInstance((activity as MainActivity))
                     .appDatabase
                     .rowTableDao()
                     .isExists(sid)
@@ -843,13 +848,13 @@ class TreatedWaterFragment : Fragment() {
                 if (cnt == 0) {
                     try {
                         val tempList = sessionManager.getArrayList()
-                        if (!tempList.contains(activity!!.intent.getStringExtra("SAMPLEID")!!)) {
-                            tempList.add(activity!!.intent.getStringExtra("SAMPLEID")!!)
+                        if (!tempList.contains((activity as MainActivity).intent.getStringExtra("SAMPLEID")!!)) {
+                            tempList.add((activity as MainActivity).intent.getStringExtra("SAMPLEID")!!)
                             sessionManager.saveArrayList(tempList)
                         }
                     } catch (e: Exception) {
                         val tempList = ArrayList<String>()
-                        tempList.add(activity!!.intent.getStringExtra("SAMPLEID")!!)
+                        tempList.add((activity as MainActivity).intent.getStringExtra("SAMPLEID")!!)
                         sessionManager.saveArrayList(tempList)
                     }
                     saveTreated(rowTable)
@@ -870,7 +875,7 @@ class TreatedWaterFragment : Fragment() {
             override fun doInBackground(vararg voids: Void): Void? {
 
                 //adding to database
-                DatabaseClient.getInstance(activity!!)
+                DatabaseClient.getInstance((activity as MainActivity))
                     .appDatabase
                     .rowTableDao()
                     .insert(rowTable)
@@ -879,7 +884,9 @@ class TreatedWaterFragment : Fragment() {
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
-                Toast.makeText(activity!!, "Treated Water Data saved successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText((activity as MainActivity), "Treated Water Data saved successfully", Toast.LENGTH_LONG)
+                    .show()
+                (activity as MainActivity).finish()
                 //clearFields()
             }
         }
@@ -895,7 +902,7 @@ class TreatedWaterFragment : Fragment() {
             override fun doInBackground(vararg voids: Void): Void? {
 
                 //adding to database
-                DatabaseClient.getInstance(activity!!)
+                DatabaseClient.getInstance((activity as MainActivity))
                     .appDatabase
                     .rowTableDao()
                     .updateRowTreated(rowTable.treated!!, rid)
@@ -904,7 +911,9 @@ class TreatedWaterFragment : Fragment() {
 
             override fun onPostExecute(aVoid: Void?) {
                 super.onPostExecute(aVoid)
-                Toast.makeText(activity!!, "Treated Water Data saved successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText((activity as MainActivity), "Treated Water Data saved successfully", Toast.LENGTH_LONG)
+                    .show()
+                (activity as MainActivity).finish()
                 //clearFields()
             }
         }
@@ -944,7 +953,7 @@ class TreatedWaterFragment : Fragment() {
         val sbView = snackbar.view
         val textView = sbView.findViewById(R.id.snackbar_text) as TextView
         textView.setTextColor(Color.parseColor("#FFFFFF"))
-        textView.typeface = Typeface.createFromAsset(activity!!.assets, "proxima_nova_light.ttf")
+        textView.typeface = Typeface.createFromAsset((activity as MainActivity).assets, "proxima_nova_light.ttf")
         textView.textSize = 17f
         textView.gravity = Gravity.CENTER_VERTICAL
         snackbar.show()
