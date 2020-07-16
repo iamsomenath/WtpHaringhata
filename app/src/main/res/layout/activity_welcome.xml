@@ -197,7 +197,7 @@
                         android:layout_gravity="left|center"
                         android:fontFamily="@font/proxima_nova_light"
                         android:gravity="center"
-                        android:text="DD/MM/YYYY"
+                        android:text="YYYY/MM/DD"
                         android:textSize="18sp"
                         android:textStyle="normal"/>
 
@@ -226,7 +226,7 @@
                         android:layout_gravity="left|center"
                         android:fontFamily="@font/proxima_nova_light"
                         android:gravity="center"
-                        android:text="DD/MM/YYYY"
+                        android:text="YYYY/MM/DD"
                         android:textSize="18sp"
                         android:textStyle="normal"/>
 
@@ -255,7 +255,7 @@
                         android:layout_gravity="left|center"
                         android:fontFamily="@font/proxima_nova_light"
                         android:gravity="center"
-                        android:text="DD/MM/YYYY"
+                        android:text="YYYY/MM/DD"
                         android:textSize="18sp"
                         android:textStyle="normal"/>
 

@@ -78,7 +78,7 @@ class WelcomeActivity : AppCompatActivity(), CallbackListenerMain {
             myCalendar.set(Calendar.MONTH, monthOfYear)
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val myFormat = "dd/MM/yyyy"
+            val myFormat = "yyyy/MM/dd"
             val sdf = SimpleDateFormat(myFormat, Locale.US)
 
             dob1.text = sdf.format(myCalendar.time)
@@ -100,7 +100,7 @@ class WelcomeActivity : AppCompatActivity(), CallbackListenerMain {
             myCalendar.set(Calendar.MONTH, monthOfYear)
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val myFormat = "dd/MM/yyyy"
+            val myFormat = "yyyy/MM/dd"
             val sdf = SimpleDateFormat(myFormat, Locale.US)
 
             dob2.text = sdf.format(myCalendar.time)
@@ -122,7 +122,7 @@ class WelcomeActivity : AppCompatActivity(), CallbackListenerMain {
             myCalendar.set(Calendar.MONTH, monthOfYear)
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val myFormat = "dd/MM/yyyy"
+            val myFormat = "yyyy/MM/dd"
             val sdf = SimpleDateFormat(myFormat, Locale.US)
 
             dob3.text = sdf.format(myCalendar.time)
@@ -373,7 +373,7 @@ class WelcomeActivity : AppCompatActivity(), CallbackListenerMain {
             return
         }
 
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val sdf = SimpleDateFormat("yyyy/MM/dd")
         val currentDate = sdf.format(Date())
         myCalendar = Calendar.getInstance()
         val df1 = SimpleDateFormat("HH:mm:ss")
